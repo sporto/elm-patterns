@@ -1,145 +1,82 @@
-module Main (..) where
+module Main exposing (..)
 
-import StartApp
 import Html exposing (..)
+import Html.App
 import Task exposing (Task)
-import Effects exposing (Effects, Never)
-import Signal exposing (Address, Mailbox)
-import Message
-import Trigger
+import Msg exposing(Msg(..))
+import Outlet.Main
+import Outlet.Msg
+import Trigger.Main
 import Debug
-
-
--- ACTIONS
-
-
-type Action
-  = ShowMessage String
-  | NoOp
-  | TriggerAction Trigger.Action
-  | MessageAction Message.Action
-
-
 
 -- MODEL
 
-
 type alias Model =
-  { message : Message.Model
-  , trigger : Trigger.Model
+  { message : Outlet.Main.Model
+  , trigger : Trigger.Main.Model
   }
-
 
 initialModel : Model
 initialModel =
-  { message = Message.initialModel
-  , trigger = Trigger.initialModel
+  { message = Outlet.Main.initialModel
+  , trigger = Trigger.Main.initialModel
   }
-
-
 
 -- VIEW
 
-
-view : Address Action -> Model -> Html
-view address model =
+view : Model -> Html Msg
+view model =
   div
     []
-    [ Trigger.view (Signal.forwardTo address TriggerAction) model.trigger
-    , Message.view (Signal.forwardTo address MessageAction) model.message
+    [ Html.App.map TriggerMsg (Trigger.Main.view model.trigger)
+    , Html.App.map OutletMsg (Outlet.Main.view model.message)
     ]
-
-
-
--- ACTIONS MAILBOX
-
-
-{-|
-In order to send events between component we create an Actions Mailbox.
-This mailbox provides an address that can be given to a component.
--}
-actionsMailbox : Mailbox Action
-actionsMailbox =
-  Signal.mailbox NoOp
-
-
-{-|
-Next we need an address that tags messages with ShowMessage
--}
-showMessageAddress : Address String
-showMessageAddress =
-  Signal.forwardTo actionsMailbox.address ShowMessage
-
-
 
 -- UPDATE
 
-
-update : Action -> Model -> ( Model, Effects Action )
-update action model =
-  case Debug.log "action" action of
-    NoOp ->
-      ( model, Effects.none )
-
-    {-|
-    ShowMessage returns an effect which send the message to the Message component
-    -}
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+  case Debug.log "msg" msg of
+    -- ShowMessage returns an effect which send the message to the Message component
     ShowMessage message ->
       let
-        fx =
-          Task.succeed (Message.Message message)
-            |> Effects.task
-            |> Effects.map MessageAction
+        cmd =
+          Task.succeed message
+            |> Task.perform Outlet.Msg.Message Outlet.Msg.Message
       in
-        ( model, fx )
+        ( model, Cmd.map OutletMsg cmd )
 
-    TriggerAction subAction ->
+    TriggerMsg subMsg ->
       let
-        context =
-          { model = model.trigger
-          , showMessageAddress = showMessageAddress
-          }
-
-        ( subModel, fx ) =
-          Trigger.update subAction context
+        ( subModel, cmd, mainCmd ) =
+          Trigger.Main.update subMsg model.trigger
+        cmds =
+          Cmd.batch [ Cmd.map TriggerMsg cmd, mainCmd]
       in
-        ( { model | trigger = subModel }, Effects.map TriggerAction fx )
+        ( { model | trigger = subModel }, cmds )
 
-    MessageAction subAction ->
+    OutletMsg subMsg ->
       let
-        ( subModel, fx ) =
-          Message.update subAction model.message
+        ( subModel, cmd ) =
+          Outlet.Main.update subMsg model.message
       in
-        ( { model | message = subModel }, Effects.map MessageAction fx )
-
+        ( { model | message = subModel }, Cmd.map OutletMsg cmd )
 
 
 -- APP
 
-
-init : ( Model, Effects Action )
+init : ( Model, Cmd Msg )
 init =
-  ( initialModel, Effects.none )
+  ( initialModel, Cmd.none )
+  
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.none
 
-
-{-|
-actionsMailbox needs to be an input to StartApp
--}
-app : StartApp.App Model
-app =
-  StartApp.start
-    { view = view
-    , update = update
-    , init = init
-    , inputs = [ actionsMailbox.signal ]
-    }
-
-
-main : Signal Html
 main =
-  app.html
-
-
-port runner : Signal (Task.Task Never ())
-port runner =
-  app.tasks
+  Html.App.program
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = subscriptions
+    }

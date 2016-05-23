@@ -1,6 +1,6 @@
 I want to send a message to a sibling component.
 
-- Component `Trigger` wants to send a message to `Message`
+- Component `Trigger` wants to send a message to `Outlet`
 
 ## Solution
 
@@ -10,4 +10,4 @@ I want to send a message to a sibling component.
 
 ## Running
 
-Use Elm reactor.
+Use Elm reactor. Open `Main.elm`.
