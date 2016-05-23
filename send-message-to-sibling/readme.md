@@ -4,9 +4,8 @@ I want to send a message to a sibling component.
 
 ## Solution
 
-- This patterns uses an auxiliary mailbox for sending messages between components
-- The `Trigger` component sends the message to this mailbox
-- When a message is received in this mailbox it is redirected to the `Message` component
+- The trigger component returns a third value in `update`. This third value is a root message.
+- Then the main component reacts to this root message creating a message for the Outlet component.
 
 ## Running
 
