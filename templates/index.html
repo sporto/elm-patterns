@@ -1,0 +1,61 @@
+{% import "macros/page.html" as page_macros %}
+<!DOCTYPE html>
+<html lang="{% if lang %}{{ lang }}{% else %}en{% endif %}">
+<head>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
+    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+    <meta name="description" content="{{ config.description }}">
+
+    <link rel="stylesheet" href="{{ get_url(path="main.css", trailing_slash=false) }}">
+
+    {% if config.generate_feed %}
+        <link rel="alternate" type={% if config.feed_filename == "atom.xml" %}"application/atom+xml"{% else %}"application/rss+xml"{% endif %} title="RSS" href="{{ get_url(path=config.feed_filename) | safe }}">
+    {% endif %}
+
+    {% block extra_head %}
+    {% endblock extra_head %}
+</head>
+<body>
+    <a class="skip-main" href="#main">Skip to content</a>
+    <div class="container">
+        <header> 
+            <h1 class="site-header">
+                <a href="{{ config.base_url }}">{{ config.title }}</a>
+            </h1>
+            <nav>
+                {% block sidebar_nav %}
+              
+                {% endblock sidebar_nav %}
+            </nav>
+        </header>
+        <main id="main" tabindex="-1">
+            {% block content %}
+                {% if paginator.pages %}
+                {% for page in paginator.pages %}
+                    {{ page_macros::page_listing(page=page) }}
+                {% endfor %}
+                {{ page_macros::page_pagination(paginator=paginator) }}
+                {% else %}
+                {% for page in section.pages %}
+                    {{ page_macros::page_listing(page=page) }}
+                {% endfor %}
+                {% endif %}
+            {% endblock content %}
+        </main>
+        <footer>
+            <p>
+                © {{ config.title }} {{ now() | date(format="%Y") }}<br>
+                Powered by <a target="_blank" href="https://getzola.com/">Zola</a>, Theme <a target="_blank" href="https://github.com/zbrox/anpu">Anpu</a>.
+            </p>
+            <p>
+                {% block footer %}
+                {% endblock footer %}
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

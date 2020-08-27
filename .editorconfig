@@ -6,11 +6,12 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 
-# 2 space indentation
 [*.elm]
 indent_style = space
 indent_size = 2
 
-# Tab indentation (no size specified)
+[*.html]
+indent_style = tab
+
 [Makefile]
 indent_style = tab
