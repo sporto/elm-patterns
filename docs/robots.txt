@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://example.com/sitemap.xml
+Sitemap: http://sporto.github.io/elm-patterns/sitemap.xml

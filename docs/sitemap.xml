@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://example.com/</loc>
+        <loc>http://sporto.github.io/elm-patterns/</loc>
     </url>
     <url>
-        <loc>https://example.com/another/</loc>
+        <loc>http://sporto.github.io/elm-patterns/another/</loc>
     </url>
     <url>
-        <loc>https://example.com/something/</loc>
+        <loc>http://sporto.github.io/elm-patterns/something/</loc>
     </url>
 </urlset>
