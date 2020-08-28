@@ -1,8 +1,20 @@
 # Elm Patterns
 
-A collection of common patterns for Elm applications.
+A collection of common patterns in Elm.
 
-## Running the code
+## Development
 
-Read `readme.md` in each folder for details about a pattern and instructions on how to run them.
+### Install Just
+
+<https://github.com/casey/just>
+
+### Install Zola
+
+<https://www.getzola.org/>
+
+### Install node packages
+
+`npm i`
+
+
 
