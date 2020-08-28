@@ -3,4 +3,10 @@
     <url>
         <loc>https://example.com/</loc>
     </url>
+    <url>
+        <loc>https://example.com/another/</loc>
+    </url>
+    <url>
+        <loc>https://example.com/something/</loc>
+    </url>
 </urlset>

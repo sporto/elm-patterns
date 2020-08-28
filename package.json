@@ -1,0 +1,25 @@
+{
+  "name": "elm-patterns",
+  "version": "1.0.0",
+  "description": "A collection of common patterns for Elm applications.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sporto/elm-patterns.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sporto/elm-patterns/issues"
+  },
+  "homepage": "https://github.com/sporto/elm-patterns#readme",
+  "devDependencies": {
+    "tailwindcss": "^1.7.5"
+  }
+}
