@@ -16,13 +16,13 @@
 	{% endblock extra_head %}
 </head>
 <body>
-	<header>
-		<h1 class="site-header">
-			<a href="{{ config.base_url }}">{{ config.title }}</a>
+	<header class="px-2">
+		<h1 class="text-3xl bold">
+			<a href="{{ config.base_url }}" class="no-underline">{{ config.title }}</a>
 		</h1>
 	</header>
-	<main>
-		<nav>
+	<main class="flex">
+		<nav class="px-2" style="width:20rem;">
 			{% set section = get_section(path="_index.md") %}
 			{% for page in section.pages %}
 				{{ page_macros::page_listing(page=page) }}
@@ -31,22 +31,11 @@
 			{% block sidebar_nav %}
 			{% endblock sidebar_nav %}
 		</nav>
-		<div>
-		<main id="main" tabindex="-1">
+		<main class="px-6 pb-6">
 			{% block content %}
-				Welcome
+				Welcome, this is a little collection of useful patterns for Elm.
 			{% endblock content %}
-		</div>
+		</main>
 	</main>
-		<footer>
-			<p>
-				© {{ config.title }} {{ now() | date(format="%Y") }}<br>
-			</p>
-			<p>
-				{% block footer %}
-				{% endblock footer %}
-			</p>
-		</footer>
-	</div>
 </body>
 </html>
