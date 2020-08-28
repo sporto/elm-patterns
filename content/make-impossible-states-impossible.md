@@ -1,6 +1,6 @@
 +++
 title = "Make impossible states impossible"
-weight = 10
+weight = 40
 +++
 
 Elm has a great and expressible type system. This type system allows us to avoid having impossible states in our application.

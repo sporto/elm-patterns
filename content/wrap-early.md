@@ -1,6 +1,6 @@
 +++
 title = "Wrap early, unwrap late"
-weight = 0
+weight = 20
 +++
 
 To avoid type blidness, you probably want to wrap your values in unique types.

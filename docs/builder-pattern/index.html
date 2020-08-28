@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="referrer" content="no-referrer-when-downgrade">
+
+	<title>The builder pattern</title>
+	<meta name="description" content="">
+
+	<link rel="stylesheet" href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;styles.css">
+
+	
+	
+</head>
+<body>
+	<main class="flex">
+		<nav class="px-2 fixed" style="width:20rem;">
+			<h1 class="text-3xl bold">
+				<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;" class="no-underline">Elm Patterns</a>
+			</h1>
+
+			
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;type-blindness&#x2F;">Type blindness</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;wrap-early&#x2F;">Wrap early, unwrap late</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;unwrap-maybe-early&#x2F;">Unwrap Maybe and Result early</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;make-impossible-states-impossible&#x2F;">Make impossible states impossible</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;builder-pattern&#x2F;">The builder pattern</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;parse-dont-validate&#x2F;">Parse don&#x27;t validate</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;opaque-types&#x2F;">Opaque types</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;flow-phantom-types&#x2F;">Process flow using phantom types</a>
+</li>
+
+			
+		</nav>
+		<main class="px-6 pt-4 pb-6" style="margin-left:20rem;">
+			
+
+<article class="post">
+    <header>
+        <h1>The builder pattern</h1>
+    </header>
+    <div class="content">
+        <p>When we need to pass many arguments to a function we might have something like</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#b48ead;">module </span><span style="color:#c0c5ce;">Button </span><span style="color:#b48ead;">exposing </span><span style="color:#c0c5ce;">(..)
+
+</span><span style="color:#b48ead;">type alias Args </span><span style="color:#c0c5ce;">= 
+    </span><span style="color:#96b5b4;">{</span><span style="color:#c0c5ce;"> isEnabled: </span><span style="color:#d08770;">Bool
+    </span><span style="color:#96b5b4;">,</span><span style="color:#c0c5ce;"> label: </span><span style="color:#d08770;">String
+    </span><span style="color:#96b5b4;">,</span><span style="color:#c0c5ce;"> hexColor: </span><span style="color:#d08770;">String
+    </span><span style="color:#96b5b4;">, </span><span style="color:#c0c5ce;">...
+    </span><span style="color:#96b5b4;">}
+
+</span><span style="color:#8fa1b3;">btn</span><span style="color:#b48ead;">: Args -&gt; Html </span><span style="color:#bf616a;">msg
+</span></code></pre>
+<p>In the caller module:</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Button
+
+</span><span style="color:#d08770;">Button</span><span style="color:#c0c5ce;">.btn </span><span style="color:#96b5b4;">{</span><span style="color:#c0c5ce;"> isEnabled: </span><span style="color:#d08770;">True</span><span style="color:#96b5b4;">,</span><span style="color:#c0c5ce;"> label: &quot;</span><span style="color:#a3be8c;">Click me</span><span style="color:#c0c5ce;">&quot;</span><span style="color:#96b5b4;">, </span><span style="color:#c0c5ce;">....</span><span style="color:#96b5b4;">}
+</span></code></pre>
+<p>The problem with this is that each time we add an argument to <code>Args</code> we need to change every single place where we call this function.</p>
+<h2 id="pattern">Pattern</h2>
+<p>With builder pattern we build the arguments with the minimum necessary information, then modify the arguments if we need to.</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#b48ead;">module </span><span style="color:#c0c5ce;">Button </span><span style="color:#b48ead;">exposing </span><span style="color:#c0c5ce;">(..)
+
+</span><span style="color:#8fa1b3;">newArgs</span><span style="color:#b48ead;">: String -&gt; Args
+</span><span style="color:#8fa1b3;">newArgs </span><span style="color:#c0c5ce;">label =
+    </span><span style="color:#96b5b4;">{</span><span style="color:#c0c5ce;"> isEnabled = </span><span style="color:#d08770;">True
+    </span><span style="color:#96b5b4;">,</span><span style="color:#c0c5ce;"> label = label
+    </span><span style="color:#96b5b4;">,</span><span style="color:#c0c5ce;"> hexColor: &quot;</span><span style="color:#a3be8c;">#ABC</span><span style="color:#c0c5ce;">&quot;
+    </span><span style="color:#96b5b4;">, </span><span style="color:#c0c5ce;">...
+    </span><span style="color:#96b5b4;">}
+
+</span><span style="color:#8fa1b3;">withIsEnabled </span><span style="color:#b48ead;">: Bool -&gt; Args -&gt; Args
+</span><span style="color:#8fa1b3;">withIsEnabled </span><span style="color:#c0c5ce;">isEnabled args =
+    </span><span style="color:#96b5b4;">{</span><span style="color:#c0c5ce;"> args | isEnabled = isEnabled</span><span style="color:#96b5b4;">}
+
+</span><span style="color:#8fa1b3;">btn</span><span style="color:#b48ead;">: Args -&gt; Html </span><span style="color:#bf616a;">msg
+</span></code></pre>
+<p>This modules exposes a function to create the initial arguments and a series of function to modify the arguments (commonly using <code>with</code> as prefix).</p>
+<p>Then the caller module uses this:</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#b48ead;">import </span><span style="color:#c0c5ce;">Button 
+
+</span><span style="color:#8fa1b3;">aButton </span><span style="color:#c0c5ce;">=
+    </span><span style="color:#d08770;">Button</span><span style="color:#c0c5ce;">.newArgs &quot;</span><span style="color:#a3be8c;">Click me</span><span style="color:#c0c5ce;">&quot;
+        |&gt; </span><span style="color:#d08770;">Button</span><span style="color:#c0c5ce;">.withIsEnabled </span><span style="color:#d08770;">False
+        </span><span style="color:#c0c5ce;">|&gt; </span><span style="color:#d08770;">Button</span><span style="color:#c0c5ce;">.withHexColor &quot;</span><span style="color:#a3be8c;">#123</span><span style="color:#c0c5ce;">&quot;
+        |&gt; </span><span style="color:#d08770;">Button</span><span style="color:#c0c5ce;">.btn
+</span></code></pre>
+<p>The advante of this is that adding new arguments to <code>Args</code> doesn't require us to change every caller.</p>
+
+    </div>
+
+    
+<div class="article-info">
+	
+	<div class="article-taxonomies">
+		
+		
+	</div>
+</div>
+
+</article>
+
+
+		</main>
+	</main>
+</body>
+</html>

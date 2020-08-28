@@ -15,20 +15,13 @@
 	
 </head>
 <body>
-	<header class="px-2">
-		<h1 class="text-3xl bold">
-			<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;" class="no-underline">Elm Patterns</a>
-		</h1>
-	</header>
 	<main class="flex">
-		<nav class="px-2" style="width:20rem;">
-			
-			
-				
-<li class="post-list">
-	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;make-impossible-states-impossible&#x2F;">Make impossible states impossible</a>
-</li>
+		<nav class="px-2 fixed" style="width:20rem;">
+			<h1 class="text-3xl bold">
+				<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;" class="no-underline">Elm Patterns</a>
+			</h1>
 
+			
 			
 				
 <li class="post-list">
@@ -42,11 +35,44 @@
 </li>
 
 			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;unwrap-maybe-early&#x2F;">Unwrap Maybe and Result early</a>
+</li>
 
 			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;make-impossible-states-impossible&#x2F;">Make impossible states impossible</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;builder-pattern&#x2F;">The builder pattern</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;parse-dont-validate&#x2F;">Parse don&#x27;t validate</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;opaque-types&#x2F;">Opaque types</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;flow-phantom-types&#x2F;">Process flow using phantom types</a>
+</li>
+
 			
 		</nav>
-		<main class="px-6 pb-6">
+		<main class="px-6 pt-4 pb-6" style="margin-left:20rem;">
 			
 
 <article class="post">
@@ -57,27 +83,27 @@
         <p>Type blindness is when you have several values of the same type that could get mixed up.</p>
 <p><strong>Example 1</strong></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">type alias User =
-  { firstName: String, lastName: String }
+<code><span style="color:#b48ead;">type alias User </span><span style="color:#c0c5ce;">=
+  </span><span style="color:#96b5b4;">{</span><span style="color:#c0c5ce;"> firstName: </span><span style="color:#d08770;">String</span><span style="color:#96b5b4;">,</span><span style="color:#c0c5ce;"> lastName: </span><span style="color:#d08770;">String </span><span style="color:#96b5b4;">}
 </span></code></pre>
 <p>Both attributes are <code>String</code>. It is easy to mix them up when receiving external information. </p>
 <p><strong>Example 2</strong></p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">priceInDollars : Float
-priceInDollars = 2.0
+<code><span style="color:#8fa1b3;">priceInDollars </span><span style="color:#b48ead;">: Float
+</span><span style="color:#8fa1b3;">priceInDollars </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">2.0
 
-priceInEuros : Float
-priceInEuros = 1
+</span><span style="color:#8fa1b3;">priceInEuros </span><span style="color:#b48ead;">: Float
+</span><span style="color:#8fa1b3;">priceInEuros </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">1
 </span></code></pre>
 <p>Both values are <code>Float</code>. There is nothing preventing us from doing a non sensical operation like <code>priceInDollars + priceInEuros</code>.</p>
 <h2 id="pattern">Pattern</h2>
 <p>In this case consider wrapping values in a unique type.</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">type Dollar = Dollar Float
+<code><span style="color:#b48ead;">type Dollar </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">Dollar Float
 
-priceInDollars : Dollar
-priceInDollar =
-  Dollar 2.0
+</span><span style="color:#8fa1b3;">priceInDollars </span><span style="color:#b48ead;">: Dollar
+</span><span style="color:#8fa1b3;">priceInDollar </span><span style="color:#c0c5ce;">=
+  </span><span style="color:#d08770;">Dollar 2.0
 </span></code></pre>
 <p>You will need to unwrap values later, which can get tedious, so use this when there is a good potential of mixing up values. </p>
 

@@ -15,20 +15,13 @@
 	
 </head>
 <body>
-	<header class="px-2">
-		<h1 class="text-3xl bold">
-			<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;" class="no-underline">Elm Patterns</a>
-		</h1>
-	</header>
 	<main class="flex">
-		<nav class="px-2" style="width:20rem;">
-			
-			
-				
-<li class="post-list">
-	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;make-impossible-states-impossible&#x2F;">Make impossible states impossible</a>
-</li>
+		<nav class="px-2 fixed" style="width:20rem;">
+			<h1 class="text-3xl bold">
+				<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;" class="no-underline">Elm Patterns</a>
+			</h1>
 
+			
 			
 				
 <li class="post-list">
@@ -42,11 +35,44 @@
 </li>
 
 			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;unwrap-maybe-early&#x2F;">Unwrap Maybe and Result early</a>
+</li>
 
 			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;make-impossible-states-impossible&#x2F;">Make impossible states impossible</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;builder-pattern&#x2F;">The builder pattern</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;parse-dont-validate&#x2F;">Parse don&#x27;t validate</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;opaque-types&#x2F;">Opaque types</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;flow-phantom-types&#x2F;">Process flow using phantom types</a>
+</li>
+
 			
 		</nav>
-		<main class="px-6 pb-6">
+		<main class="px-6 pt-4 pb-6" style="margin-left:20rem;">
 			
 
 <article class="post">
@@ -59,22 +85,22 @@
 <p>Then try to unwrap as late as possible.</p>
 <h2 id="example-anti-patterns">Example anti-patterns</h2>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">displayPriceInDollars : Float -&gt; String
-displayPriceInDollars price =
-    &quot;USD$&quot; ++ String.fromFloat price
+<code><span style="color:#8fa1b3;">displayPriceInDollars </span><span style="color:#b48ead;">: Float -&gt; String
+</span><span style="color:#8fa1b3;">displayPriceInDollars </span><span style="color:#c0c5ce;">price =
+    &quot;</span><span style="color:#a3be8c;">USD$</span><span style="color:#c0c5ce;">&quot; ++ </span><span style="color:#d08770;">String</span><span style="color:#c0c5ce;">.fromFloat price
 </span></code></pre>
 <p>There is nothing stopping us from passing something that is not dollars here (e.g. we might use Euros).</p>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">calculateTotalPrice: List Float -&gt; Float
+<code><span style="color:#8fa1b3;">calculateTotalPrice</span><span style="color:#b48ead;">: List Float -&gt; Float
 </span></code></pre>
 <p>We could send a list of mixed currencies e.g. dollars and euros.</p>
 <h2 id="pattern">Pattern</h2>
 <pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">type Dollar = Dollar Float
+<code><span style="color:#b48ead;">type Dollar </span><span style="color:#c0c5ce;">= </span><span style="color:#d08770;">Dollar Float
 
-displayPriceInDollars : Dollar -&gt; String
-displayPriceInDollars (Dollar price) =
-    &quot;USD$&quot; ++ String.fromFloat price
+</span><span style="color:#8fa1b3;">displayPriceInDollars </span><span style="color:#b48ead;">: Dollar -&gt; String
+</span><span style="color:#8fa1b3;">displayPriceInDollars </span><span style="color:#b48ead;">(</span><span style="color:#d08770;">Dollar</span><span style="color:#c0c5ce;"> price</span><span style="color:#b48ead;">) </span><span style="color:#c0c5ce;">=
+    &quot;</span><span style="color:#a3be8c;">USD$</span><span style="color:#c0c5ce;">&quot; ++ </span><span style="color:#d08770;">String</span><span style="color:#c0c5ce;">.fromFloat price
 </span></code></pre>
 <p>This enforces that we use the <code>Dollar</code> type as much as possible.</p>
 
