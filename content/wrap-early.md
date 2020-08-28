@@ -1,5 +1,6 @@
 +++
 title = "Wrap early, unwrap late"
+weight = 0
 +++
 
 To avoid type blidness, you probably want to wrap your values in unique types.
@@ -10,7 +11,7 @@ Then try to unwrap as late as possible.
 
 ## Example anti-patterns
 
-```
+```elm
 displayPriceInDollars : Float -> String
 displayPriceInDollars price =
     "USD$" ++ String.fromFloat price
@@ -18,7 +19,7 @@ displayPriceInDollars price =
 
 There is nothing stopping us from passing something that is not dollars here (e.g. we might use Euros).
 
-```
+```elm
 calculateTotalPrice: List Float -> Float
 ```
 
@@ -26,7 +27,7 @@ We could send a list of mixed currencies e.g. dollars and euros.
 
 ## Pattern
 
-```
+```elm
 type Dollar = Dollar Float
 
 displayPriceInDollars : Dollar -> String
