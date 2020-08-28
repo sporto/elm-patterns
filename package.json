@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/sporto/elm-patterns#readme",
   "devDependencies": {
+    "cssnano": "^4.1.10",
+    "postcss": "^7.0.32",
+    "postcss-cli": "^7.1.1",
     "tailwindcss": "^1.7.5"
   }
 }

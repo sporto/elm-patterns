@@ -1,5 +1,5 @@
 css:
-	npx tailwindcss build templates/styles.css -o static/styles.css
+	npx postcss templates/*.css -o static/styles.css
 
 serve:
 	zola serve
