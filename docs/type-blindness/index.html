@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="referrer" content="no-referrer-when-downgrade">
+
+	<title>Type blindness</title>
+	<meta name="description" content="">
+
+	<link rel="stylesheet" href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;styles.css">
+
+	
+	
+</head>
+<body>
+	<header class="px-2">
+		<h1 class="text-3xl bold">
+			<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;" class="no-underline">Elm Patterns</a>
+		</h1>
+	</header>
+	<main class="flex">
+		<nav class="px-2" style="width:20rem;">
+			
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;type-blindness&#x2F;">Type blindness</a>
+</li>
+
+			
+				
+<li class="post-list">
+	<a href="http:&#x2F;&#x2F;sporto.github.io&#x2F;elm-patterns&#x2F;wrap-early&#x2F;">Wrap early, unwrap late</a>
+</li>
+
+			
+
+			
+			
+		</nav>
+		<main class="px-6 pb-6">
+			
+
+<article class="post">
+    <header>
+        <h1>Type blindness</h1>
+    </header>
+    <div class="content">
+        <p>Type blindness is when you have several values of the same type that could get mixed up.</p>
+<p><strong>Example 1</strong></p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#c0c5ce;">type alias User =
+  { firstName: String, lastName: String }
+</span></code></pre>
+<p>Both attributes are <code>String</code>. It is easy to mix them up when receiving external information. </p>
+<p><strong>Example 2</strong></p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#c0c5ce;">priceInDollars : Float
+priceInDollars = 2.0
+
+priceInEuros : Float
+priceInEuros = 1
+</span></code></pre>
+<p>Both values are <code>Float</code>. There is nothing preventing us from doing a non sensical operation like <code>priceInDollars + priceInEuros</code>.</p>
+<h2 id="pattern">Pattern</h2>
+<p>In this case consider wrapping values in a unique type.</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#c0c5ce;">type Dollar = Dollar Float
+
+priceInDollars : Dollar
+priceInDollar =
+  Dollar 2.0
+</span></code></pre>
+<p>You will need to unwrap values later, which can get tedious, so use this when there is a good potential of mixing up values. </p>
+
+    </div>
+
+    
+<div class="article-info">
+	
+	<div class="article-taxonomies">
+		
+		
+	</div>
+</div>
+
+</article>
+
+
+		</main>
+	</main>
+</body>
+</html>

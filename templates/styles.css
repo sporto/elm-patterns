@@ -6,14 +6,20 @@
 
 h1 {
 	font-size: 3rem;
+	margin-bottom: 1rem;
 }
 
 h2 {
 	font-size: 2rem;
+	margin-bottom: 1rem;
 }
 
 p, pre {
 	margin-bottom: 1rem;
+}
+
+pre {
+	padding: 1rem;
 }
 
 a {
