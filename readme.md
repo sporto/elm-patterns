@@ -1,6 +1,6 @@
 # Elm Patterns
 
-A collection of common patterns in Elm.
+A collection of common patterns in Elm <http://sporto.github.io/elm-patterns/>.
 
 ## Development
 
