@@ -1,0 +1,9 @@
+[book]
+authors = ["Sebastian Porto"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Elm Patterns"
+
+[build]
+build-dir = "docs"

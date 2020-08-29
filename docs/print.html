@@ -3,10 +3,10 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title></title>
+        <title>Elm Patterns</title>
         
+        <meta name="robots" content="noindex" />
         
-        <base href="/">
         
 
 
@@ -161,8 +161,147 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#document-not-found-404" id="document-not-found-404">Document not found (404)</a></h1>
-<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
+                        <p>+++
+title = &quot;Type blindness&quot;
+weight = 10
++++</p>
+<p>Type blindness is when you have several values of the same type that could get mixed up.</p>
+<p><strong>Example 1</strong></p>
+<pre><code class="language-elm">type alias User =
+  { firstName: String, lastName: String }
+</code></pre>
+<p>Both attributes are <code>String</code>. It is easy to mix them up when receiving external information. </p>
+<p><strong>Example 2</strong></p>
+<pre><code class="language-elm">priceInDollars : Float
+priceInDollars = 2.0
+
+priceInEuros : Float
+priceInEuros = 1
+</code></pre>
+<p>Both values are <code>Float</code>. There is nothing preventing us from doing a non sensical operation like <code>priceInDollars + priceInEuros</code>.</p>
+<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
+<p>In this case consider wrapping values in a unique type.</p>
+<pre><code class="language-elm">type Dollar = Dollar Float
+
+priceInDollars : Dollar
+priceInDollar =
+  Dollar 2.0
+</code></pre>
+<p>You will need to unwrap values later, which can get tedious, so use this when there is a good potential of mixing up values. </p>
+<p>+++
+title = &quot;Wrap early, unwrap late&quot;
+weight = 20
++++</p>
+<p>To avoid type blidness, you probably want to wrap your values in unique types.</p>
+<p>When you do this it is a good idea to wrap your types as early as possible. E.g. when decoding values from external sources.</p>
+<p>Then try to unwrap as late as possible.</p>
+<h2><a class="header" href="#example-anti-patterns" id="example-anti-patterns">Example anti-patterns</a></h2>
+<pre><code class="language-elm">displayPriceInDollars : Float -&gt; String
+displayPriceInDollars price =
+    &quot;USD$&quot; ++ String.fromFloat price
+</code></pre>
+<p>There is nothing stopping us from passing something that is not dollars here (e.g. we might use Euros).</p>
+<pre><code class="language-elm">calculateTotalPrice: List Float -&gt; Float
+</code></pre>
+<p>We could send a list of mixed currencies e.g. dollars and euros.</p>
+<h2><a class="header" href="#pattern-1" id="pattern-1">Pattern</a></h2>
+<pre><code class="language-elm">type Dollar = Dollar Float
+
+displayPriceInDollars : Dollar -&gt; String
+displayPriceInDollars (Dollar price) =
+    &quot;USD$&quot; ++ String.fromFloat price
+</code></pre>
+<p>This enforces that we use the <code>Dollar</code> type as much as possible.</p>
+<p>+++
+title = &quot;Unwrap Maybe and Result early&quot;
+weight = 30
++++</p>
+<p>+++
+title = &quot;The builder pattern&quot;
+weight = 50
++++</p>
+<p>When we need to pass many arguments to a function we might have something like</p>
+<pre><code class="language-elm">module Button exposing (..)
+
+type alias Args = 
+    { isEnabled: Bool
+    , label: String
+    , hexColor: String
+    , ...
+    }
+
+btn: Args -&gt; Html msg
+</code></pre>
+<p>In the caller module:</p>
+<pre><code class="language-elm">import Button
+
+Button.btn { isEnabled: True, label: &quot;Click me&quot;, ....}
+</code></pre>
+<p>The problem with this is that each time we add an argument to <code>Args</code> we need to change every single place where we call this function.</p>
+<h2><a class="header" href="#pattern-2" id="pattern-2">Pattern</a></h2>
+<p>With builder pattern we build the arguments with the minimum necessary information, then modify the arguments if we need to.</p>
+<pre><code class="language-elm">module Button exposing (..)
+
+newArgs: String -&gt; Args
+newArgs label =
+    { isEnabled = True
+    , label = label
+    , hexColor: &quot;#ABC&quot;
+    , ...
+    }
+
+withIsEnabled : Bool -&gt; Args -&gt; Args
+withIsEnabled isEnabled args =
+    { args | isEnabled = isEnabled}
+
+btn: Args -&gt; Html msg
+</code></pre>
+<p>This modules exposes a function to create the initial arguments and a series of function to modify the arguments (commonly using <code>with</code> as prefix).</p>
+<p>Then the caller module uses this:</p>
+<pre><code class="language-elm">import Button 
+
+aButton =
+    Button.newArgs &quot;Click me&quot;
+        |&gt; Button.withIsEnabled False
+        |&gt; Button.withHexColor &quot;#123&quot;
+        |&gt; Button.btn
+</code></pre>
+<p>The advante of this is that adding new arguments to <code>Args</code> doesn't require us to change every caller.</p>
+<p>+++
+title = &quot;Make impossible states impossible&quot;
+weight = 40
++++</p>
+<p>Elm has a great and expressible type system. This type system allows us to avoid having impossible states in our application.</p>
+<h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
+<p>A common pattern is to have a boolean attribute to show a loading spinner while data is loading. e.g.</p>
+<pre><code class="language-elm">type alias Model =
+    { isLoading: Bool
+    , data: Maybe Data
+    }
+</code></pre>
+<p>But in this type is possible to have something like <code>isLoading = false</code> and <code>data = Nothing</code>. What is the meaning of this? This is probably an impossible state that should never happen.</p>
+<h2><a class="header" href="#pattern-3" id="pattern-3">Pattern</a></h2>
+<p>Which Elm you can represent your types in ways that don't allow for impossible states. e.g</p>
+<pre><code class="language-elm">type RemoteData
+    = Loading
+    | Loaded Data
+
+type alias Model =
+    { data : RemoteData }
+</code></pre>
+<p><a href="https://www.youtube.com/watch?v=IcgmSRJHu_8">Here is an excellent talk about this</a>.</p>
+<p>+++
+title = &quot;Parse don't validate&quot;
+weight = 60
++++</p>
+<p>+++
+title = &quot;Opaque types&quot;
+weight = 70
++++</p>
+<p>+++
+title = &quot;Process flow using phantom types&quot;
+weight = 80
++++</p>
 
                     </main>
 
@@ -212,6 +351,14 @@
         <!-- Custom JS scripts -->
         
 
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        
         
 
     </body>

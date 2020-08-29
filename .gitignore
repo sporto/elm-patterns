@@ -1,4 +1,4 @@
 elm-stuff
 elm.js
-public
 node_modules
+.DS_Store
