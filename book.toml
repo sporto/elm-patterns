@@ -4,6 +4,7 @@ language = "en"
 multilingual = false
 src = "src"
 title = "Elm Patterns"
+site-url = "http://sporto.github.io/elm-patterns/"
 
 [build]
 build-dir = "docs"

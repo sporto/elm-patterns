@@ -4,17 +4,9 @@ A collection of common patterns in Elm.
 
 ## Development
 
-### Install Just
+### mdbook
 
-<https://github.com/casey/just>
-
-### Install Zola
-
-<https://www.getzola.org/>
-
-### Install node packages
-
-`npm i`
+This book uses mdbook: <https://github.com/rust-lang/mdBook>
 
 
 
