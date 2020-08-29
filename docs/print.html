@@ -233,10 +233,7 @@ userCard maybeUser =
                 ]
 </code></pre>
 <p>Here the sub views take a <code>User</code>, this makes most of your views easier to write and test. </p>
-<p>+++
-title = &quot;The builder pattern&quot;
-weight = 50
-+++</p>
+<h1><a class="header" href="#the-builder-pattern" id="the-builder-pattern">The builder pattern</a></h1>
 <p>When we need to pass many arguments to a function we might have something like</p>
 <pre><code class="language-elm">module Button exposing (..)
 
@@ -284,10 +281,7 @@ aButton =
         |&gt; Button.btn
 </code></pre>
 <p>The advante of this is that adding new arguments to <code>Args</code> doesn't require us to change every caller.</p>
-<p>+++
-title = &quot;Make impossible states impossible&quot;
-weight = 40
-+++</p>
+<h1><a class="header" href="#make-impossible-states-impossible" id="make-impossible-states-impossible">Make impossible states impossible</a></h1>
 <p>Elm has a great and expressible type system. This type system allows us to avoid having impossible states in our application.</p>
 <h2><a class="header" href="#anti-pattern-1" id="anti-pattern-1">Anti-pattern</a></h2>
 <p>A common pattern is to have a boolean attribute to show a loading spinner while data is loading. e.g.</p>
@@ -307,18 +301,39 @@ type alias Model =
     { data : RemoteData }
 </code></pre>
 <p><a href="https://www.youtube.com/watch?v=IcgmSRJHu_8">Here is an excellent talk about this</a>.</p>
-<p>+++
-title = &quot;Parse don't validate&quot;
-weight = 60
-+++</p>
-<p>+++
-title = &quot;Opaque types&quot;
-weight = 70
-+++</p>
-<p>+++
-title = &quot;Process flow using phantom types&quot;
-weight = 80
-+++</p>
+<h1><a class="header" href="#parse-dont-validate" id="parse-dont-validate">Parse don't validate</a></h1>
+<p>When we have external data (e.g. user input or remote data) it is a common pattern to validate this data before using it.</p>
+<h2><a class="header" href="#anti-pattern-2" id="anti-pattern-2">Anti-pattern</a></h2>
+<p>A common approach is to ask if the data is valid and then use it e.g.</p>
+<pre><code class="language-elm">type alias UserInput =
+    { name: Maybe String
+    , age: Maybe Int
+    }
+
+isValidUser : UserInput -&gt; Bool
+</code></pre>
+<p>The problem with this approach is that after doing this you still have a <code>UserInput</code> with can still hold invalid values.</p>
+<h2><a class="header" href="#pattern-5" id="pattern-5">Pattern</a></h2>
+<p>A better approach is to &quot;parse&quot; your input and return a known valid type. e.g.</p>
+<pre><code class="language-elm"> type alias UserInput =
+    { name: Maybe String
+    , age: Maybe Int
+    }
+
+type alias ValidUser =
+    { name: String
+    , age: Int
+    }
+
+validateUser : UserInput -&gt; Result String ValidUser
+</code></pre>
+<p>In this way you ensure that you have a valid type to work with later on. Some examples where this is useful:</p>
+<ul>
+<li>Validating user input</li>
+<li>Parsing JSON from external sources</li>
+</ul>
+<h1><a class="header" href="#opaque-types" id="opaque-types">Opaque types</a></h1>
+<h1><a class="header" href="#process-flow-using-phantom-types" id="process-flow-using-phantom-types">Process flow using phantom types</a></h1>
 
                     </main>
 

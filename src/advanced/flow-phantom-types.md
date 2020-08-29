@@ -1,4 +1,1 @@
-+++
-title = "Process flow using phantom types"
-weight = 80
-+++
+# Process flow using phantom types

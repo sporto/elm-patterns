@@ -163,10 +163,37 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>+++
-title = &quot;Parse don't validate&quot;
-weight = 60
-+++</p>
+                        <h1><a class="header" href="#parse-dont-validate" id="parse-dont-validate">Parse don't validate</a></h1>
+<p>When we have external data (e.g. user input or remote data) it is a common pattern to validate this data before using it.</p>
+<h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
+<p>A common approach is to ask if the data is valid and then use it e.g.</p>
+<pre><code class="language-elm">type alias UserInput =
+    { name: Maybe String
+    , age: Maybe Int
+    }
+
+isValidUser : UserInput -&gt; Bool
+</code></pre>
+<p>The problem with this approach is that after doing this you still have a <code>UserInput</code> with can still hold invalid values.</p>
+<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
+<p>A better approach is to &quot;parse&quot; your input and return a known valid type. e.g.</p>
+<pre><code class="language-elm"> type alias UserInput =
+    { name: Maybe String
+    , age: Maybe Int
+    }
+
+type alias ValidUser =
+    { name: String
+    , age: Int
+    }
+
+validateUser : UserInput -&gt; Result String ValidUser
+</code></pre>
+<p>In this way you ensure that you have a valid type to work with later on. Some examples where this is useful:</p>
+<ul>
+<li>Validating user input</li>
+<li>Parsing JSON from external sources</li>
+</ul>
 
                     </main>
 

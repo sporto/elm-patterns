@@ -1,7 +1,4 @@
-+++
-title = "The builder pattern"
-weight = 50
-+++
+# The builder pattern
 
 When we need to pass many arguments to a function we might have something like
 

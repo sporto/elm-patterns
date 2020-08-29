@@ -1,4 +1,1 @@
-+++
-title = "Opaque types"
-weight = 70
-+++
+# Opaque types
