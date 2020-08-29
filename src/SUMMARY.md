@@ -1,5 +1,6 @@
 # Summary
 
+- [Elm patterns](./index.md)
 - [Basic patterns]()
     - [Type blindness](./basic/type-blindness.md)
     - [Wrap early, unwrap late](./basic/wrap-early.md)
