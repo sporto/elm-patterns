@@ -159,10 +159,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>+++
-title = &quot;Type blindness&quot;
-weight = 10
-+++</p>
+                        <h1><a class="header" href="#type-blindness" id="type-blindness">Type blindness</a></h1>
 <p>Type blindness is when you have several values of the same type that could get mixed up.</p>
 <p><strong>Example 1</strong></p>
 <pre><code class="language-elm">type alias User =
@@ -216,6 +213,21 @@ priceInDollar =
 
         </div>
 
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3000/__livereload");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         
 
         

@@ -161,10 +161,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>+++
-title = &quot;Type blindness&quot;
-weight = 10
-+++</p>
+                        <h1><a class="header" href="#type-blindness" id="type-blindness">Type blindness</a></h1>
 <p>Type blindness is when you have several values of the same type that could get mixed up.</p>
 <p><strong>Example 1</strong></p>
 <pre><code class="language-elm">type alias User =
@@ -188,10 +185,7 @@ priceInDollar =
   Dollar 2.0
 </code></pre>
 <p>You will need to unwrap values later, which can get tedious, so use this when there is a good potential of mixing up values. </p>
-<p>+++
-title = &quot;Wrap early, unwrap late&quot;
-weight = 20
-+++</p>
+<h1><a class="header" href="#wrap-early-unwrap-late" id="wrap-early-unwrap-late">Wrap early, unwrap late</a></h1>
 <p>To avoid type blidness, you probably want to wrap your values in unique types.</p>
 <p>When you do this it is a good idea to wrap your types as early as possible. E.g. when decoding values from external sources.</p>
 <p>Then try to unwrap as late as possible.</p>
@@ -212,10 +206,29 @@ displayPriceInDollars (Dollar price) =
     &quot;USD$&quot; ++ String.fromFloat price
 </code></pre>
 <p>This enforces that we use the <code>Dollar</code> type as much as possible.</p>
-<p>+++
-title = &quot;Unwrap Maybe and Result early&quot;
-weight = 30
-+++</p>
+<h1><a class="header" href="#unwrap-maybe-and-result-early" id="unwrap-maybe-and-result-early">Unwrap Maybe and Result early</a></h1>
+<p>If you have a <code>Maybe</code>, <code>Result</code> or <code>RemoteData</code> it is often a good idea to try to unwrap those as early as possible.</p>
+<h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
+<pre><code class="language-elm">userCard : Maybe User -&gt; Html Msg
+userCard maybeUser =
+   div []
+        [ userInfo maybeUser
+        , userActivity maybeUser
+        ]
+</code></pre>
+<p>In here both <code>userInfo</code> and <code>userActivy</code> get a <code>Maybe User</code>. Meaning that will need to unwrap this value several times in your views.</p>
+<h2><a class="header" href="#pattern-2" id="pattern-2">Pattern</a></h2>
+<pre><code class="language-elm">userCard maybeUser =
+    case maybeUser of
+        Nothing -&gt;
+            div [] [ ... ]
+        Just user -&gt;
+            div []
+                [ userInfo user
+                , userActivity user
+                ]
+</code></pre>
+<p>Here the sub views take a <code>User</code>, this makes most of your views easier to write and test. </p>
 <p>+++
 title = &quot;The builder pattern&quot;
 weight = 50
@@ -238,7 +251,7 @@ btn: Args -&gt; Html msg
 Button.btn { isEnabled: True, label: &quot;Click me&quot;, ....}
 </code></pre>
 <p>The problem with this is that each time we add an argument to <code>Args</code> we need to change every single place where we call this function.</p>
-<h2><a class="header" href="#pattern-2" id="pattern-2">Pattern</a></h2>
+<h2><a class="header" href="#pattern-3" id="pattern-3">Pattern</a></h2>
 <p>With builder pattern we build the arguments with the minimum necessary information, then modify the arguments if we need to.</p>
 <pre><code class="language-elm">module Button exposing (..)
 
@@ -272,7 +285,7 @@ title = &quot;Make impossible states impossible&quot;
 weight = 40
 +++</p>
 <p>Elm has a great and expressible type system. This type system allows us to avoid having impossible states in our application.</p>
-<h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
+<h2><a class="header" href="#anti-pattern-1" id="anti-pattern-1">Anti-pattern</a></h2>
 <p>A common pattern is to have a boolean attribute to show a loading spinner while data is loading. e.g.</p>
 <pre><code class="language-elm">type alias Model =
     { isLoading: Bool
@@ -280,7 +293,7 @@ weight = 40
     }
 </code></pre>
 <p>But in this type is possible to have something like <code>isLoading = false</code> and <code>data = Nothing</code>. What is the meaning of this? This is probably an impossible state that should never happen.</p>
-<h2><a class="header" href="#pattern-3" id="pattern-3">Pattern</a></h2>
+<h2><a class="header" href="#pattern-4" id="pattern-4">Pattern</a></h2>
 <p>Which Elm you can represent your types in ways that don't allow for impossible states. e.g</p>
 <pre><code class="language-elm">type RemoteData
     = Loading
@@ -324,6 +337,21 @@ weight = 80
 
         </div>
 
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3000/__livereload");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         
 
         

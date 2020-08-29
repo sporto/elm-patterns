@@ -1,7 +1,4 @@
-+++
-title = "Type blindness"
-weight = 10
-+++
+# Type blindness
 
 Type blindness is when you have several values of the same type that could get mixed up.
 

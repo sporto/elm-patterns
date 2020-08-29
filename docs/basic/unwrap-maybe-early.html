@@ -159,10 +159,29 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>+++
-title = &quot;Unwrap Maybe and Result early&quot;
-weight = 30
-+++</p>
+                        <h1><a class="header" href="#unwrap-maybe-and-result-early" id="unwrap-maybe-and-result-early">Unwrap Maybe and Result early</a></h1>
+<p>If you have a <code>Maybe</code>, <code>Result</code> or <code>RemoteData</code> it is often a good idea to try to unwrap those as early as possible.</p>
+<h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
+<pre><code class="language-elm">userCard : Maybe User -&gt; Html Msg
+userCard maybeUser =
+   div []
+        [ userInfo maybeUser
+        , userActivity maybeUser
+        ]
+</code></pre>
+<p>In here both <code>userInfo</code> and <code>userActivy</code> get a <code>Maybe User</code>. Meaning that will need to unwrap this value several times in your views.</p>
+<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
+<pre><code class="language-elm">userCard maybeUser =
+    case maybeUser of
+        Nothing -&gt;
+            div [] [ ... ]
+        Just user -&gt;
+            div []
+                [ userInfo user
+                , userActivity user
+                ]
+</code></pre>
+<p>Here the sub views take a <code>User</code>, this makes most of your views easier to write and test. </p>
 
                     </main>
 
@@ -201,6 +220,21 @@ weight = 30
 
         </div>
 
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3000/__livereload");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         
 
         

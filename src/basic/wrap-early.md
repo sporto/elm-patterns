@@ -1,7 +1,4 @@
-+++
-title = "Wrap early, unwrap late"
-weight = 20
-+++
+# Wrap early, unwrap late
 
 To avoid type blidness, you probably want to wrap your values in unique types.
 
