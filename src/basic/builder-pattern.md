@@ -5,7 +5,7 @@ When we need to pass many arguments to a function we might have something like
 ```elm
 module Button exposing (..)
 
-type alias Args = 
+type alias Args =
     { isEnabled: Bool
     , label: String
     , hexColor: String
@@ -52,7 +52,7 @@ This modules exposes a function to create the initial arguments and a series of 
 Then the caller module uses this:
 
 ```elm
-import Button 
+import Button
 
 aButton =
     Button.newArgs "Click me"
