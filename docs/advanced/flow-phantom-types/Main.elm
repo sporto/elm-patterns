@@ -14,7 +14,7 @@ type alias Order =
 initialOrder : Order
 initialOrder =
     { total = 0
-    , quantity = 0
+    , quantity = 1
     }
 
 
@@ -53,34 +53,34 @@ type Start
     = Start
 
 
-type AfterTotal
-    = AfterTotal
+type OrderWithTotal
+    = OrderWithTotal
 
 
-type AfterQuantity
-    = AfterQuantity
+type OrderWithQuantity
+    = OrderWithQuantity
 
 
 type Done
     = Done
 
 
-setTotal : Int -> Step Start -> Step AfterTotal
+setTotal : Int -> Step Start -> Step OrderWithTotal
 setTotal total (Step model) =
     Step { model | total = total }
 
 
-adjustQuantityFromTotal : Step AfterTotal -> Step Done
+adjustQuantityFromTotal : Step OrderWithTotal -> Step Done
 adjustQuantityFromTotal (Step model) =
     Step { model | quantity = model.total // priceEach }
 
 
-setQuantity : Int -> Step Start -> Step AfterQuantity
+setQuantity : Int -> Step Start -> Step OrderWithQuantity
 setQuantity quantity (Step order) =
     Step { order | quantity = quantity }
 
 
-adjustTotalFromQuantity : Step AfterQuantity -> Step Done
+adjustTotalFromQuantity : Step OrderWithQuantity -> Step Done
 adjustTotalFromQuantity (Step order) =
     Step { order | total = order.quantity * priceEach }
 

@@ -164,6 +164,101 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#process-flow-using-phantom-types" id="process-flow-using-phantom-types">Process flow using phantom types</a></h1>
+<p>Sometimes we want to create a process that needs to follow different paths until it reaches an end point. Like a finite state machine.</p>
+<p>For example we want an order form where you can change the total or the quantity. When you change any of these two, the other value needs to change automatically.</p>
+<p><img src="flow-phantom-types/form.png" alt="Form" /></p>
+<ul>
+<li>When the user updates the total we want to update the quantity</li>
+<li>When the user updates the quantity we want to update the total</li>
+</ul>
+<p>These two flows can be illustrated with a state machine:</p>
+<p><img src="flow-phantom-types/state-machine.png" alt="State machine" /></p>
+<p>This is a simple example to illustrate this pattern. This particular example can be done with less ceremony, but in more complex scenarios this pattern is really valuable.</p>
+<p>We want to design our code in way that:</p>
+<ul>
+<li>Enforces running through the process steps in the correct order (depending on the user intention)</li>
+<li>Doesn't let us forget a step</li>
+</ul>
+<h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
+<p>One possible way of doing this is by creating intermediate types for our process:</p>
+<pre><code class="language-elm">
+type alias InvalidOrder =
+	{ quantity : Maybe Int, total : Maybe Int }
+
+type alias OrderWithQuantity =
+	{ quantity : Int, total: Maybe Int }
+
+type alias OrderWithTotal =
+	{ quantity : Maybe Int, total: Int }
+
+type alias Order =
+	{ quantity : Int, total : Int }
+
+setTotal : Int -&gt; InvalidOrder -&gt; OrderWithTotal
+
+adjustQuantityFromTotal : OrderWithTotal -&gt; Order
+
+setQuantity : Int -&gt; InvalidOrder -&gt; OrderWithQuantity
+
+adjustTotalFromQuantity : OrderWithQuantity -&gt; Order
+</code></pre>
+<p>Although this is not too bad here, if we were to have more paths and attributes the multiplication of intermediate types would get out of hand really quickly.</p>
+<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
+<p><strong>Phantom types</strong> allow us to deal with this in an elegant way.</p>
+<h3><a class="header" href="#state-machine-states" id="state-machine-states">State machine states</a></h3>
+<p>First we need some types to define the state machine states:</p>
+<pre><code class="language-elm">type Step step
+    = Step Order
+
+type Start
+    = Start
+
+type OrderWithTotal
+    = OrderWithTotal
+
+type OrderWithQuantity
+    = OrderWithQuantity
+
+type Done
+    = Done
+</code></pre>
+<p>The <code>phantom type</code> here is in <code>Step</code>. Note how it defines a <code>step</code> type variable that is not used in the constructor.</p>
+<h3><a class="header" href="#transitions" id="transitions">Transitions</a></h3>
+<p>Then we can create transition functions that use the phantom type to restrict what they take and return.</p>
+<p>For example:</p>
+<pre><code>adjustQuantityFromTotal : Step OrderWithTotal -&gt; Step Done
+</code></pre>
+<p>This function can only take a <code>Step</code> that is in the <code>OrderWithTotal</code> state. And returns a <code>Step</code> in <code>Done</code> state.</p>
+<p>For our order state machine we need these functions:</p>
+<pre><code class="language-elm">setTotal : Int -&gt; Step Start -&gt; Step OrderWithTotal
+
+adjustQuantityFromTotal : Step OrderWithTotal -&gt; Step Done
+
+setQuantity : Int -&gt; Step Start -&gt; Step OrderWithQuantity
+
+adjustTotalFromQuantity : Step OrderWithQuantity -&gt; Step Done
+
+done : Step Done -&gt; Order
+</code></pre>
+<p><img src="flow-phantom-types/state-machine.png" alt="State machine" /></p>
+<p>These functions are state machine transitions. They only allow moving from specific states to other specific states.</p>
+<h3><a class="header" href="#flows" id="flows">Flows</a></h3>
+<p>And finally we can build the valid flows using these functions:</p>
+<pre><code class="language-elm">flowPrioritizingTotal total order =
+    Step order
+        |&gt; setTotal total
+        |&gt; adjustQuantityFromTotal
+        |&gt; done
+
+
+flowPrioritizingQuantity quantity order =
+    Step order
+        |&gt; setQuantity quantity
+        |&gt; adjustTotalFromQuantity
+        |&gt; done
+</code></pre>
+<p>In this way we can enforce specific processes without creating a myriad of intermediate types.</p>
+<p>See a working example here <a href="https://ellie-app.com/9SywZggd5m5a1">https://ellie-app.com/9SywZggd5m5a1</a></p>
 
                     </main>
 
