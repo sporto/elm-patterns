@@ -22,7 +22,7 @@ validateData : ParsedData -> Result String ValidData
 transformData : ValidData -> Result String TransformedData
 ```
 
-# Pattern
+## Pattern
 
 In Elm this is commonly done using `Maybe.andThen` and `Result.andThen`. These function will run the next function in the chain if the previous function was successful, otherwise they will propage the error.
 
@@ -35,3 +35,35 @@ process data =
 ```
 
 [Here is an excellent post about this with a lot more details](https://fsharpforfunandprofit.com/rop/).
+
+## Variant
+
+A variant of this is where the second track doesn't represent an error, but rather an early exit.
+
+E.g. This process finds recommendations for a user. Each function in the chain can add to the recommendations or choose to exit the process.
+
+
+```elm
+type Process
+	= Continue Recommendation
+	| Exit Recommendation
+
+andThen : (Recommendation -> Process) -> Process -> Process
+andThen callback process =
+	case process of
+		Continue document -> callback document
+		Exit document -> Exit document
+
+findRecommendations user =
+	Continue emptyRecommendation
+		|> andThen (findMusic user)
+		|> andThen (findBooks user)
+		|> andThen (findMovies user)
+		|> andThen (findGames user)
+
+findMusic : User -> Recommendation -> Process
+
+...
+```
+
+`andThen` is a function that mirrors `Result.andThen` but specific for `Process`.

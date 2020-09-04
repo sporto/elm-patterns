@@ -354,7 +354,7 @@ validateData : ParsedData -&gt; Result String ValidData
 
 transformData : ValidData -&gt; Result String TransformedData
 </code></pre>
-<h1><a class="header" href="#pattern-6" id="pattern-6">Pattern</a></h1>
+<h2><a class="header" href="#pattern-6" id="pattern-6">Pattern</a></h2>
 <p>In Elm this is commonly done using <code>Maybe.andThen</code> and <code>Result.andThen</code>. These function will run the next function in the chain if the previous function was successful, otherwise they will propage the error.</p>
 <pre><code class="language-elm">process : String -&gt; Result String TransformedData
 process data =
@@ -363,6 +363,31 @@ process data =
 		|&gt; Result.andThen transformData
 </code></pre>
 <p><a href="https://fsharpforfunandprofit.com/rop/">Here is an excellent post about this with a lot more details</a>.</p>
+<h2><a class="header" href="#variant" id="variant">Variant</a></h2>
+<p>A variant of this is where the second track doesn't represent an error, but rather an early exit.</p>
+<p>E.g. This process finds recommendations for a user. Each function in the chain can add to the recommendations or choose to exit the process.</p>
+<pre><code class="language-elm">type Process
+	= Continue Recommendation
+	| Exit Recommendation
+
+andThen : (Recommendation -&gt; Process) -&gt; Process -&gt; Process
+andThen callback process =
+	case process of
+		Continue document -&gt; callback document
+		Exit document -&gt; Exit document
+
+findRecommendations user =
+	Continue emptyRecommendation
+		|&gt; andThen (findMusic user)
+		|&gt; andThen (findBooks user)
+		|&gt; andThen (findMovies user)
+		|&gt; andThen (findGames user)
+
+findMusic : User -&gt; Recommendation -&gt; Process
+
+...
+</code></pre>
+<p><code>andThen</code> is a function that mirrors <code>Result.andThen</code> but specific for <code>Process</code>.</p>
 <h1><a class="header" href="#opaque-types" id="opaque-types">Opaque types</a></h1>
 <p>Opaque types are types that cannot be created outside of a specific module. For example:</p>
 <pre><code class="language-elm">module Lib
