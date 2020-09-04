@@ -167,7 +167,7 @@
 <p>When we need to pass many arguments to a function we might have something like</p>
 <pre><code class="language-elm">module Button exposing (..)
 
-type alias Args = 
+type alias Args =
     { isEnabled: Bool
     , label: String
     , hexColor: String
@@ -202,7 +202,7 @@ btn: Args -&gt; Html msg
 </code></pre>
 <p>This modules exposes a function to create the initial arguments and a series of function to modify the arguments (commonly using <code>with</code> as prefix).</p>
 <p>Then the caller module uses this:</p>
-<pre><code class="language-elm">import Button 
+<pre><code class="language-elm">import Button
 
 aButton =
     Button.newArgs &quot;Click me&quot;

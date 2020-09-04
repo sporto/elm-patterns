@@ -164,6 +164,37 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#opaque-types" id="opaque-types">Opaque types</a></h1>
+<p>Opaque types are types that cannot be created outside of a specific module. For example:</p>
+<pre><code class="language-elm">module Lib
+
+exposing (Config)
+
+type Config = Config { size: Int, style: Style }
+</code></pre>
+<p>This module expose the <code>Config</code> type but not the constructor. An external module can't construct or modify a <code>Config</code> type.
+Opaque types are mostly useful for building packages as they hide the implementation of something. Hiding a type like this makes it easier to change the implementation without breaking the code using it.</p>
+<h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
+<pre><code class="language-elm">module Lib
+
+exposing (Config)
+
+type alias Config = { size: Int, style: Style }
+</code></pre>
+<p>This packages exposes <code>Config</code> transparently. Any changes we want to make will require changes in the application using this. If we remove or change a type in <code>Config</code> we will have to publish a major version of this package.</p>
+<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
+<pre><code class="language-elm">module Lib
+
+exposing (Config, newConfig, withSize)
+
+type Config = Config { size: Int, style: Style }
+
+newConfig : Config
+newConfig =
+	Config { size: 1, style : Big }
+
+withSize : Int -&gt; Config -&gt; Config
+</code></pre>
+<p>This package allows an application to create a <code>Config</code> and updated it. But if we decide to change how we store the <code>Config</code> we can do so without any breaking changes for the application using this.</p>
 
                     </main>
 
