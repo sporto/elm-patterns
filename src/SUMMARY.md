@@ -9,5 +9,6 @@
     - [Make impossible states impossible](./basic/impossible-states.md)
     - [Parse don't validate](./basic/parse-dont-validate.md)
 - [Advanced patterns]()
+    - [Railway](./advanced/railway.md)
     - [Opaque types](./advanced/opaque-types.md)
     - [Process flow using phantom types](./advanced/flow-phantom-types.md)

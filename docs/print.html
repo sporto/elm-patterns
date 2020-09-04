@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.1.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.2.</strong> Process flow using phantom types</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.2.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.3.</strong> Process flow using phantom types</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -334,6 +334,35 @@ validateUser : UserInput -&gt; Result String ValidUser
 <li>Validating user input</li>
 <li>Parsing JSON from external sources</li>
 </ul>
+<h1><a class="header" href="#the-railway-pattern" id="the-railway-pattern">The railway pattern</a></h1>
+<p>The railway pattern is a way of chaining operations where each might fail.
+It is called railway because there are two tracks in this pattern.</p>
+<ul>
+<li>The first track is the happy path</li>
+<li>The second track is the error track</li>
+</ul>
+<p>If any of the chained functions fails we move to the error track. From there we get an error at the end of the railway.</p>
+<p>For example, let say we want to:</p>
+<ul>
+<li>Parse some external data</li>
+<li>Validate the parsed data</li>
+<li>Transform the data into something else</li>
+</ul>
+<pre><code class="language-elm">parseData : String -&gt; Result String ParsedData
+
+validateData : ParsedData -&gt; Result String ValidData
+
+transformData : ValidData -&gt; Result String TransformedData
+</code></pre>
+<h1><a class="header" href="#pattern-6" id="pattern-6">Pattern</a></h1>
+<p>In Elm this is commonly done using <code>Maybe.andThen</code> and <code>Result.andThen</code>. These function will run the next function in the chain if the previous function was successful, otherwise they will propage the error.</p>
+<pre><code class="language-elm">process : String -&gt; Result String TransformedData
+process data =
+	parseData data
+		|&gt; Result.andThen validateData
+		|&gt; Result.andThen transformData
+</code></pre>
+<p><a href="https://fsharpforfunandprofit.com/rop/">Here is an excellent post about this with a lot more details</a>.</p>
 <h1><a class="header" href="#opaque-types" id="opaque-types">Opaque types</a></h1>
 <p>Opaque types are types that cannot be created outside of a specific module. For example:</p>
 <pre><code class="language-elm">module Lib
@@ -352,7 +381,7 @@ exposing (Config)
 type alias Config = { size: Int, style: Style }
 </code></pre>
 <p>This packages exposes <code>Config</code> transparently. Any changes we want to make will require changes in the application using this. If we remove or change a type in <code>Config</code> we will have to publish a major version of this package.</p>
-<h2><a class="header" href="#pattern-6" id="pattern-6">Pattern</a></h2>
+<h2><a class="header" href="#pattern-7" id="pattern-7">Pattern</a></h2>
 <pre><code class="language-elm">module Lib
 
 exposing (Config, newConfig, withSize)
@@ -406,7 +435,7 @@ setQuantity : Int -&gt; InvalidOrder -&gt; OrderWithQuantity
 adjustTotalFromQuantity : OrderWithQuantity -&gt; Order
 </code></pre>
 <p>Although this is not too bad here, if we were to have more paths and attributes the multiplication of intermediate types would get out of hand really quickly.</p>
-<h2><a class="header" href="#pattern-7" id="pattern-7">Pattern</a></h2>
+<h2><a class="header" href="#pattern-8" id="pattern-8">Pattern</a></h2>
 <p><strong>Phantom types</strong> allow us to deal with this in an elegant way.</p>
 <h3><a class="header" href="#state-machine-states" id="state-machine-states">State machine states</a></h3>
 <p>First we need some types to define the state machine states:</p>

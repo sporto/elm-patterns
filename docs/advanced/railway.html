@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>The builder pattern - Elm Patterns</title>
+        <title>Railway - Elm Patterns</title>
         
         
 
@@ -93,7 +93,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html" class="active"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.2.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.3.</strong> Process flow using phantom types</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html" class="active"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.2.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.3.</strong> Process flow using phantom types</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,67 +163,48 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#the-builder-pattern" id="the-builder-pattern">The builder pattern</a></h1>
-<p>When we need to pass many arguments to a function we might have something like</p>
-<pre><code class="language-elm">module Button exposing (..)
+                        <h1><a class="header" href="#the-railway-pattern" id="the-railway-pattern">The railway pattern</a></h1>
+<p>The railway pattern is a way of chaining operations where each might fail.
+It is called railway because there are two tracks in this pattern.</p>
+<ul>
+<li>The first track is the happy path</li>
+<li>The second track is the error track</li>
+</ul>
+<p>If any of the chained functions fails we move to the error track. From there we get an error at the end of the railway.</p>
+<p>For example, let say we want to:</p>
+<ul>
+<li>Parse some external data</li>
+<li>Validate the parsed data</li>
+<li>Transform the data into something else</li>
+</ul>
+<pre><code class="language-elm">parseData : String -&gt; Result String ParsedData
 
-type alias Args =
-    { isEnabled: Bool
-    , label: String
-    , hexColor: String
-    , ...
-    }
+validateData : ParsedData -&gt; Result String ValidData
 
-btn: Args -&gt; Html msg
+transformData : ValidData -&gt; Result String TransformedData
 </code></pre>
-<p>In the caller module:</p>
-<pre><code class="language-elm">import Button
-
-Button.btn { isEnabled: True, label: &quot;Click me&quot;, ....}
+<h1><a class="header" href="#pattern" id="pattern">Pattern</a></h1>
+<p>In Elm this is commonly done using <code>Maybe.andThen</code> and <code>Result.andThen</code>. These function will run the next function in the chain if the previous function was successful, otherwise they will propage the error.</p>
+<pre><code class="language-elm">process : String -&gt; Result String TransformedData
+process data =
+	parseData data
+		|&gt; Result.andThen validateData
+		|&gt; Result.andThen transformData
 </code></pre>
-<p>The problem with this is that each time we add an argument to <code>Args</code> we need to change every single place where we call this function.</p>
-<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
-<p>With builder pattern we build the arguments with the minimum necessary information, then modify the arguments if we need to.</p>
-<pre><code class="language-elm">module Button exposing (..)
-
-newArgs: String -&gt; Args
-newArgs label =
-    { isEnabled = True
-    , label = label
-    , hexColor: &quot;#ABC&quot;
-    , ...
-    }
-
-withIsEnabled : Bool -&gt; Args -&gt; Args
-withIsEnabled isEnabled args =
-    { args | isEnabled = isEnabled}
-
-btn: Args -&gt; Html msg
-</code></pre>
-<p>This modules exposes a function to create the initial arguments and a series of function to modify the arguments (commonly using <code>with</code> as prefix).</p>
-<p>Then the caller module uses this:</p>
-<pre><code class="language-elm">import Button
-
-aButton =
-    Button.newArgs &quot;Click me&quot;
-        |&gt; Button.withIsEnabled False
-        |&gt; Button.withHexColor &quot;#123&quot;
-        |&gt; Button.btn
-</code></pre>
-<p>The advante of this is that adding new arguments to <code>Args</code> doesn't require us to change every caller.</p>
+<p><a href="https://fsharpforfunandprofit.com/rop/">Here is an excellent post about this with a lot more details</a>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../basic/unwrap-maybe-early.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../basic/parse-dont-validate.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="../basic/impossible-states.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../advanced/opaque-types.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -235,13 +216,13 @@ aButton =
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../basic/unwrap-maybe-early.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../basic/parse-dont-validate.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="../basic/impossible-states.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../advanced/opaque-types.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
