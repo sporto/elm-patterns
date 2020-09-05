@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Type blindness - Elm Patterns</title>
+        <title>Pipeline builder - Elm Patterns</title>
         
         
 
@@ -93,7 +93,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html" class="active"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html" class="active"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,43 +163,70 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#type-blindness" id="type-blindness">Type blindness</a></h1>
-<p>Type blindness is when you have several values of the same type that could get mixed up.</p>
-<p><strong>Example 1</strong></p>
-<pre><code class="language-elm">type alias User =
-  { firstName: String, lastName: String }
-</code></pre>
-<p>Both attributes are <code>String</code>. It is easy to mix them up when receiving external information. </p>
-<p><strong>Example 2</strong></p>
-<pre><code class="language-elm">priceInDollars : Float
-priceInDollars = 2.0
+                        <h1><a class="header" href="#pipeline-builder" id="pipeline-builder">Pipeline builder</a></h1>
+<p>This is a common pattern used for decoders and validation. This pattern is used to build a function for processing some data. Using a series of piped functions.</p>
+<pre><code class="language-haskell">type alias User =
+	{ name: String
+	, age: Int
+	}
 
-priceInEuros : Float
-priceInEuros = 1
+validateUser : User -&gt; Result String User
+validateUser user =
+    Ok User
+        |&gt; validateName user.name
+        |&gt; validateAge user.age
 </code></pre>
-<p>Both values are <code>Float</code>. There is nothing preventing us from doing a non sensical operation like <code>priceInDollars + priceInEuros</code>.</p>
-<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
-<p>In this case consider wrapping values in a unique type.</p>
-<pre><code class="language-elm">type Dollar = Dollar Float
+<p>This builds a function <code>validateUser</code> that will take a user and validate it. This <code>validateUser</code> function works like the railway pattern. We might get an <code>Ok User</code> at the end or an error <code>Err String</code>.</p>
+<p>This pattern relies on the fact that a type alias in Elm can be used as a function. e.g. <code>User</code> is a function like:</p>
+<pre><code class="language-haskell">String -&gt; Int -&gt; User
+</code></pre>
+<p>We start by putting the function (<code>User</code>) into a Result.</p>
+<p>Then each function in the chain takes an attribute and the previous result, does the validation and returns a result back.</p>
+<pre><code class="language-haskell">validateName : String -&gt; Result String (String -&gt; a) -&gt; Result String a
+validateName name =
+    Result.andThen
+        (\constructor -&gt;
+            if String.isEmpty name then
+                Err &quot;Invalid name&quot;
 
-priceInDollars : Dollar
-priceInDollar =
-  Dollar 2.0
+            else
+                Ok (constructor name)
+        )
 </code></pre>
-<p>You will need to unwrap values later, which can get tedious, so use this when there is a good potential of mixing up values. </p>
+<p>Complete example <a href="https://ellie-app.com/9SZTHJqB5r2a1">https://ellie-app.com/9SZTHJqB5r2a1</a></p>
+<h2><a class="header" href="#caveat" id="caveat">Caveat</a></h2>
+<p>When using this pattern we have to be careful with the order of functions in the pipeline. It is easy to make a mistake when the end type has many attribute of the same type.</p>
+<pre><code class="language-haskell">type alias User =
+	{ name: String
+	, email: String
+	}
+</code></pre>
+<p>With this type, we can mix up the order of name validation and email validation e.g.</p>
+<pre><code class="language-haskell">    Ok User
+        |&gt; validateEmail user.email
+        |&gt; validateName user.name
+</code></pre>
+<p>This will work, but give us a broken user.</p>
+<hr />
+<p>Some example packages using this:</p>
+<ul>
+<li>Json decoding <a href="https://package.elm-lang.org/packages/elm/json/latest/Json.Decode">https://package.elm-lang.org/packages/elm/json/latest/Json.Decode</a></li>
+<li>Validation <a href="https://package.elm-lang.org/packages/stoeffel/elm-verify/latest/">https://package.elm-lang.org/packages/stoeffel/elm-verify/latest/</a></li>
+<li>More validation <a href="https://package.elm-lang.org/packages/gege251/elm-validator-pipeline/">https://package.elm-lang.org/packages/gege251/elm-validator-pipeline/</a></li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../advanced/railway.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="../basic/wrap-early.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../advanced/opaque-types.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -211,13 +238,13 @@ priceInDollar =
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../advanced/railway.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="../basic/wrap-early.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../advanced/opaque-types.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

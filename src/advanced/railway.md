@@ -14,7 +14,7 @@ For example, let say we want to:
 - Validate the parsed data
 - Transform the data into something else
 
-```elm
+```haskell
 parseData : String -> Result String ParsedData
 
 validateData : ParsedData -> Result String ValidData
@@ -26,7 +26,7 @@ transformData : ValidData -> Result String TransformedData
 
 In Elm this is commonly done using `Maybe.andThen` and `Result.andThen`. These function will run the next function in the chain if the previous function was successful, otherwise they will propage the error.
 
-```elm
+```haskell
 process : String -> Result String TransformedData
 process data =
 	parseData data
@@ -43,7 +43,7 @@ A variant of this is where the second track doesn't represent an error, but rath
 E.g. This process finds recommendations for a user. Each function in the chain can add to the recommendations or choose to exit the process.
 
 
-```elm
+```haskell
 type Process
 	= Continue Recommendation
 	| Exit Recommendation
