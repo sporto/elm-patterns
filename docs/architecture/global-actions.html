@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Nested TEA - Elm Patterns</title>
+        <title>Global actions - Elm Patterns</title>
         
         
 
@@ -93,7 +93,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/nested-tea.html" class="active"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html"><strong aria-hidden="true">4.2.</strong> Global actions</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/nested-tea.html"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html" class="active"><strong aria-hidden="true">4.2.</strong> Global actions</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,131 +163,42 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#the-nested-elm-architecture" id="the-nested-elm-architecture">The nested Elm architecture</a></h1>
-<p>When an application starts growing large we might want to break the application messages into discrete parts. For example:</p>
+                        <h1><a class="header" href="#global-actions" id="global-actions">Global actions</a></h1>
+<p>If we use the nested TEA for our application, we will most likely need a way for the nested modules to communicate with the top levels. For example:</p>
 <ul>
-<li>Root Application
-<ul>
-<li>Page 1</li>
-<li>Page 2</li>
-<li>...</li>
+<li>Open a notification</li>
+<li>Sign out the user</li>
+<li>Return a value to the top level</li>
 </ul>
-</li>
-</ul>
-<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
-<p>The nested Elm architecture is a way of achieving this.</p>
-<pre><code class="language-haskell">module Main exposing (main)
+<p>There are many way of achieving this. One possible way is to have a module with global actions e.g.</p>
+<pre><code class="language-haskell">module Actions exposing(..)
 
-import Browser
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
-import Sub
-
-
-type alias Model =
-    { count : Int
-    , subModel : Sub.Model
-    }
-
-
-newModel : Model
-newModel =
-    { count = 0
-    , subModel = Sub.newModel
-    }
-
-
-type Msg
-    = Increment
-    | Sub Sub.Msg
-
-
-update : Msg -&gt; Model -&gt; Model
-update msg model =
-    case msg of
-        Increment -&gt;
-            { model | count = model.count + 1 }
-
-        Sub subMessage -&gt;
-            { model
-                | subModel =
-                    Sub.update subMessage model.subModel
-            }
-
-
-view : Model -&gt; Html Msg
-view model =
-    div []
-        [ div [] [ text &lt;| String.fromInt model.count ]
-        , button [ onClick Increment ] [ text &quot;+1&quot; ]
-        , Sub.view model.subModel |&gt; Html.map Sub
-        ]
-
-
-main : Program () Model Msg
-main =
-    Browser.sandbox
-        { init = newModel
-        , view = view
-        , update = update
-        }
+type Action
+	= OpenSuccessNotification ...
+	| OpenFailureNotifiation ...
+	| ...
 </code></pre>
-<p>Note the <code>Sub.view model.subModel |&gt; Html.map Sub</code> in <code>view</code>.</p>
-<p>Sub.elm :</p>
-<pre><code class="language-haskell">
-module Sub exposing (..)
-
-...
-
-type alias Model =
-    { count : Int }
-
-
-newModel : Model
-newModel =
-    { count = 0
-    }
-
-
-type Msg
-    = Increment
-
-
-update : Msg -&gt; Model -&gt; Model
-update msg model =
-    case msg of
-        Increment -&gt;
-            { model | count = model.count + 1 }
-
-
-view : Model -&gt; Html Msg
-view model =
-    div []
-        [ div [] [ text &lt;| String.fromInt model.count ]
-        , button [ onClick Increment ] [ text &quot;+1&quot; ]
-        ]
+<p>The all your nested module will return three elements on <code>update</code>. The third one being a list of actions to execute:</p>
+<pre><code class="language-haskell">update : Msg -&gt; Model -&gt; (Model, Cmd Msg, List Action)
 </code></pre>
-<p>This pattern comes with its own set of challenges like:</p>
+<p>Any nested module in the chain could add an action to the list.</p>
+<p>Finally your root <code>update</code> will need to map through the list and process the actions.</p>
+<hr />
 <ul>
-<li>Added boilerplate</li>
-<li>It is not simple for the child module to communicate with the parent module.</li>
+<li>A nice pattern for adding actions is to mimic <code>Cmd.batch</code>. E.g. <code>Actions.batch</code>.</li>
+<li>We might need to send a message back to the module that returned the action. E.g. Open a dialogue with selections. In this case our actions might need a message associated with them e.g. <code>Action Msg</code>. We will need a <code>Actions.map</code> to just like <code>Html.map</code>.</li>
 </ul>
-<p>So this pattern is best used sparingly.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../advanced/flow-phantom-types.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../architecture/nested-tea.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
-                        
-                            <a rel="next" href="../architecture/global-actions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -297,15 +208,11 @@ view model =
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../advanced/flow-phantom-types.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../architecture/nested-tea.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
-                
-                    <a rel="next" href="../architecture/global-actions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                 
             </nav>
 

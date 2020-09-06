@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.2.</strong> Global actions</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -515,17 +515,21 @@ adjustTotalFromQuantity : OrderWithQuantity -&gt; Order
 <p><strong>Phantom types</strong> allow us to deal with this in an elegant way.</p>
 <h3><a class="header" href="#state-machine-states" id="state-machine-states">State machine states</a></h3>
 <p>First we need some types to define the state machine states:</p>
-<pre><code class="language-elm">type Step step
+<pre><code class="language-haskell">type Step step
     = Step Order
+
 
 type Start
     = Start
 
+
 type OrderWithTotal
     = OrderWithTotal
 
+
 type OrderWithQuantity
     = OrderWithQuantity
+
 
 type Done
     = Done
@@ -677,6 +681,31 @@ view model =
 <li>It is not simple for the child module to communicate with the parent module.</li>
 </ul>
 <p>So this pattern is best used sparingly.</p>
+<h1><a class="header" href="#global-actions" id="global-actions">Global actions</a></h1>
+<p>If we use the nested TEA for our application, we will most likely need a way for the nested modules to communicate with the top levels. For example:</p>
+<ul>
+<li>Open a notification</li>
+<li>Sign out the user</li>
+<li>Return a value to the top level</li>
+</ul>
+<p>There are many way of achieving this. One possible way is to have a module with global actions e.g.</p>
+<pre><code class="language-haskell">module Actions exposing(..)
+
+type Action
+	= OpenSuccessNotification ...
+	| OpenFailureNotifiation ...
+	| ...
+</code></pre>
+<p>The all your nested module will return three elements on <code>update</code>. The third one being a list of actions to execute:</p>
+<pre><code class="language-haskell">update : Msg -&gt; Model -&gt; (Model, Cmd Msg, List Action)
+</code></pre>
+<p>Any nested module in the chain could add an action to the list.</p>
+<p>Finally your root <code>update</code> will need to map through the list and process the actions.</p>
+<hr />
+<ul>
+<li>A nice pattern for adding actions is to mimic <code>Cmd.batch</code>. E.g. <code>Actions.batch</code>.</li>
+<li>We might need to send a message back to the module that returned the action. E.g. Open a dialogue with selections. In this case our actions might need a message associated with them e.g. <code>Action Msg</code>. We will need a <code>Actions.map</code> to just like <code>Html.map</code>.</li>
+</ul>
 
                     </main>
 

@@ -15,3 +15,4 @@
     - [Process flow using phantom types](./advanced/flow-phantom-types.md)
 - [Architecture]()
     - [Nested TEA](./architecture/nested-tea.md)
+    - [Global actions](./architecture/global-actions.md)

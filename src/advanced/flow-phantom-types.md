@@ -57,21 +57,8 @@ Although this is not too bad here, if we were to have more paths and attributes 
 
 First we need some types to define the state machine states:
 
-```elm
-type Step step
-    = Step Order
-
-type Start
-    = Start
-
-type OrderWithTotal
-    = OrderWithTotal
-
-type OrderWithQuantity
-    = OrderWithQuantity
-
-type Done
-    = Done
+```haskell
+{{#include ./flow-phantom-types/Main.elm:48:65}}
 ```
 
 The `phantom type` here is in `Step`. Note how it defines a `step` type variable that is not used in the constructor.
