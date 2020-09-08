@@ -1,6 +1,6 @@
 # Pipeline builder
 
-This is a common pattern used for decoders and validation. This pattern is used to build a function for processing some data. Using a series of piped functions.
+This is a common pattern used for decoders and validation. This pattern is used to build a function for processing some data using a series of piped functions.
 
 ```haskell
 type alias User =

@@ -41,4 +41,4 @@ newConfig =
 withSize : Int -> Config -> Config
 ```
 
-This package allows an application to create a `Config` and updated it. But if we decide to change how we store the `Config` we can do so without any breaking changes for the application using this.
+This package allows an application to create a `Config` and update it. But if we decide to change how we store the `Config` we can do so without any breaking changes for the application using this.

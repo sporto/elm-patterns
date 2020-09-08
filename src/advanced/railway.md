@@ -24,7 +24,7 @@ transformData : ValidData -> Result String TransformedData
 
 ## Pattern
 
-In Elm this is commonly done using `Maybe.andThen` and `Result.andThen`. These function will run the next function in the chain if the previous function was successful, otherwise they will propage the error.
+In Elm this is commonly done using `Maybe.andThen` and `Result.andThen`. These function will run the next function in the chain if the previous function was successful, otherwise they will propagate the error.
 
 ```haskell
 process : String -> Result String TransformedData

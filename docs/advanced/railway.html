@@ -184,7 +184,7 @@ validateData : ParsedData -&gt; Result String ValidData
 transformData : ValidData -&gt; Result String TransformedData
 </code></pre>
 <h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
-<p>In Elm this is commonly done using <code>Maybe.andThen</code> and <code>Result.andThen</code>. These function will run the next function in the chain if the previous function was successful, otherwise they will propage the error.</p>
+<p>In Elm this is commonly done using <code>Maybe.andThen</code> and <code>Result.andThen</code>. These function will run the next function in the chain if the previous function was successful, otherwise they will propagate the error.</p>
 <pre><code class="language-haskell">process : String -&gt; Result String TransformedData
 process data =
 	parseData data

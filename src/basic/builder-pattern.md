@@ -61,4 +61,4 @@ aButton =
         |> Button.btn
 ```
 
-The advante of this is that adding new arguments to `Args` doesn't require us to change every caller.
+The advantage of this is that adding new arguments to `Args` doesn't require us to change every caller.

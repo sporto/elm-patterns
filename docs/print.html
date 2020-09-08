@@ -282,7 +282,7 @@ aButton =
         |&gt; Button.withHexColor &quot;#123&quot;
         |&gt; Button.btn
 </code></pre>
-<p>The advante of this is that adding new arguments to <code>Args</code> doesn't require us to change every caller.</p>
+<p>The advantage of this is that adding new arguments to <code>Args</code> doesn't require us to change every caller.</p>
 <h1><a class="header" href="#make-impossible-states-impossible" id="make-impossible-states-impossible">Make impossible states impossible</a></h1>
 <p>Elm has a great and expressible type system. This type system allows us to avoid having impossible states in our application.</p>
 <h2><a class="header" href="#anti-pattern-1" id="anti-pattern-1">Anti-pattern</a></h2>
@@ -355,7 +355,7 @@ validateData : ParsedData -&gt; Result String ValidData
 transformData : ValidData -&gt; Result String TransformedData
 </code></pre>
 <h2><a class="header" href="#pattern-6" id="pattern-6">Pattern</a></h2>
-<p>In Elm this is commonly done using <code>Maybe.andThen</code> and <code>Result.andThen</code>. These function will run the next function in the chain if the previous function was successful, otherwise they will propage the error.</p>
+<p>In Elm this is commonly done using <code>Maybe.andThen</code> and <code>Result.andThen</code>. These function will run the next function in the chain if the previous function was successful, otherwise they will propagate the error.</p>
 <pre><code class="language-haskell">process : String -&gt; Result String TransformedData
 process data =
 	parseData data
@@ -389,7 +389,7 @@ findMusic : User -&gt; Recommendation -&gt; Process
 </code></pre>
 <p><code>andThen</code> is a function that mirrors <code>Result.andThen</code> but specific for <code>Process</code>.</p>
 <h1><a class="header" href="#pipeline-builder" id="pipeline-builder">Pipeline builder</a></h1>
-<p>This is a common pattern used for decoders and validation. This pattern is used to build a function for processing some data. Using a series of piped functions.</p>
+<p>This is a common pattern used for decoders and validation. This pattern is used to build a function for processing some data using a series of piped functions.</p>
 <pre><code class="language-haskell">type alias User =
 	{ name: String
 	, age: Int
@@ -470,7 +470,7 @@ newConfig =
 
 withSize : Int -&gt; Config -&gt; Config
 </code></pre>
-<p>This package allows an application to create a <code>Config</code> and updated it. But if we decide to change how we store the <code>Config</code> we can do so without any breaking changes for the application using this.</p>
+<p>This package allows an application to create a <code>Config</code> and update it. But if we decide to change how we store the <code>Config</code> we can do so without any breaking changes for the application using this.</p>
 <h1><a class="header" href="#process-flow-using-phantom-types" id="process-flow-using-phantom-types">Process flow using phantom types</a></h1>
 <p>Sometimes we want to create a process that needs to follow different paths until it reaches an end point. Like a finite state machine.</p>
 <p>For example we want an order form where you can change the total or the quantity. When you change any of these two, the other value needs to change automatically.</p>
@@ -704,7 +704,7 @@ type Action
 <hr />
 <ul>
 <li>A nice pattern for adding actions is to mimic <code>Cmd.batch</code>. E.g. <code>Actions.batch</code>.</li>
-<li>We might need to send a message back to the module that returned the action. E.g. Open a dialogue with selections. In this case our actions might need a message associated with them e.g. <code>Action Msg</code>. We will need a <code>Actions.map</code> to just like <code>Html.map</code>.</li>
+<li>We might need to send a message back to the module that returned the action. E.g. Open a dialog with selections. In this case our actions might need a message associated with them e.g. <code>Action Msg</code>. We will need a <code>Actions.map</code> to just like <code>Html.map</code>.</li>
 </ul>
 
                     </main>

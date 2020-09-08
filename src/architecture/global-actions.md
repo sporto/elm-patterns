@@ -30,4 +30,4 @@ Finally your root `update` will need to map through the list and process the act
 ---
 
 - A nice pattern for adding actions is to mimic `Cmd.batch`. E.g. `Actions.batch`.
-- We might need to send a message back to the module that returned the action. E.g. Open a dialogue with selections. In this case our actions might need a message associated with them e.g. `Action Msg`. We will need a `Actions.map` to just like `Html.map`.
+- We might need to send a message back to the module that returned the action. E.g. Open a dialog with selections. In this case our actions might need a message associated with them e.g. `Action Msg`. We will need a `Actions.map` to just like `Html.map`.
