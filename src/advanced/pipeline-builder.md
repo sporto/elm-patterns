@@ -61,7 +61,13 @@ With this type, we can mix up the order of name validation and email validation 
         |> validateName user.name
 ```
 
-This will work, but give us a broken user.
+This will work, but it will give us a `User` with the attributes mixed up:
+
+```haskell
+{ name = "sam@sample.com"
+, email = "Sam"
+}
+```
 
 ---
 

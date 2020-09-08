@@ -93,7 +93,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.2.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.3.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.4.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html" class="active"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/nested-tea.html"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html"><strong aria-hidden="true">4.2.</strong> Global actions</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html" class="active"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/nested-tea.html"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html"><strong aria-hidden="true">4.2.</strong> Global actions</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -165,24 +165,29 @@
                     <main>
                         <h1><a class="header" href="#opaque-types" id="opaque-types">Opaque types</a></h1>
 <p>Opaque types are types that cannot be created outside of a specific module. For example:</p>
-<pre><code class="language-elm">module Lib
+<pre><code class="language-haskell">module Lib
 
 exposing (Config)
 
 type Config = Config { size: Int, style: Style }
 </code></pre>
-<p>This module expose the <code>Config</code> type but not the constructor. An external module can't construct or modify a <code>Config</code> type.
-Opaque types are mostly useful for building packages as they hide the implementation of something. Hiding a type like this makes it easier to change the implementation without breaking the code using it.</p>
+<p>This module expose the <code>Config</code> type but not the constructor. An external module can't construct or modify a <code>Config</code> type.</p>
+<p>Opaque types are useful for:</p>
+<ul>
+<li>Enforcing invariants: Only the relevant module can change the data. Other parts of the application cannot reach and change it.</li>
+<li>Hiding the implementation to external modules.</li>
+<li>Building packages as they hide the implementation of something. Hiding a type like this makes it easier to change the implementation without breaking the code using it.</li>
+</ul>
 <h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
-<pre><code class="language-elm">module Lib
+<pre><code class="language-haskell">module Lib
 
 exposing (Config)
 
 type alias Config = { size: Int, style: Style }
 </code></pre>
-<p>This packages exposes <code>Config</code> transparently. Any changes we want to make will require changes in the application using this. If we remove or change a type in <code>Config</code> we will have to publish a major version of this package.</p>
+<p>This module exposes <code>Config</code> transparently. Any changes we want to make will require changes in the module using this. In the case of a package, if we remove or change a type in <code>Config</code> we will have to publish a major version of this package.</p>
 <h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
-<pre><code class="language-elm">module Lib
+<pre><code class="language-haskell">module Lib
 
 exposing (Config, newConfig, withSize)
 
@@ -194,7 +199,7 @@ newConfig =
 
 withSize : Int -&gt; Config -&gt; Config
 </code></pre>
-<p>This package allows an application to create a <code>Config</code> and update it. But if we decide to change how we store the <code>Config</code> we can do so without any breaking changes for the application using this.</p>
+<p>This module allows an application to create a <code>Config</code> and update it. But if we decide to change how we store the <code>Config</code> we can do so without any breaking changes for the caller module using this.</p>
 
                     </main>
 

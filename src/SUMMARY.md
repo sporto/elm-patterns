@@ -3,6 +3,7 @@
 - [Elm patterns](./index.md)
 - [Basic patterns]()
     - [Type blindness](./basic/type-blindness.md)
+    - [Named arguments](./basic/named-arguments.md)
     - [Wrap early, unwrap late](./basic/wrap-early.md)
     - [Unwrap maybe early](./basic/unwrap-maybe-early.md)
     - [The builder pattern](./basic/builder-pattern.md)

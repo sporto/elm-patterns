@@ -4,7 +4,7 @@ Type blindness is when you have several values of the same type that could get m
 
 **Example 1**
 
-```elm
+```haskell
 type alias User =
   { firstName: String, lastName: String }
 ```
@@ -13,7 +13,7 @@ Both attributes are `String`. It is easy to mix them up when receiving external 
 
 **Example 2**
 
-```elm
+```haskell
 priceInDollars : Float
 priceInDollars = 2.0
 
@@ -27,7 +27,7 @@ Both values are `Float`. There is nothing preventing us from doing a non sensica
 
 In this case consider wrapping values in a unique type.
 
-```elm
+```haskell
 type Dollar = Dollar Float
 
 priceInDollars : Dollar
