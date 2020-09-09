@@ -9,9 +9,10 @@ module SortedList
 
 exposing (SortedList, new, add)
 
-type SortedList a = SortedList (List a)
+type SortedList a =
+	SortedList (List a)
 
-new : List a
+new : SortedList a
 new =
 	SortedList []
 
