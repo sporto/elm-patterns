@@ -5,9 +5,7 @@ Some times we want our data to always follow certain rules. E.g. We would like a
 Using opaque types we can create a module that enforces this invariant.
 
 ```haskell
-module SortedList
-
-exposing (SortedList, new, add)
+module SortedList exposing (SortedList, new, add)
 
 type SortedList a =
 	SortedList (List a)

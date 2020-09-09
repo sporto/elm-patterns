@@ -166,9 +166,7 @@
                         <h1><a class="header" href="#opaque-types-for-enforcing-invariants" id="opaque-types-for-enforcing-invariants">Opaque types for enforcing invariants</a></h1>
 <p>Some times we want our data to always follow certain rules. E.g. We would like a list that is always sorted.</p>
 <p>Using opaque types we can create a module that enforces this invariant.</p>
-<pre><code class="language-haskell">module SortedList
-
-exposing (SortedList, new, add)
+<pre><code class="language-haskell">module SortedList exposing (SortedList, new, add)
 
 type SortedList a =
 	SortedList (List a)
