@@ -9,7 +9,7 @@ If we use the nested TEA for our application, we will most likely need a way for
 There are many way of achieving this. One possible way is to have a module with global actions e.g.
 
 ```haskell
-module Actions exposing(..)
+module Actions exposing (..)
 
 type Action
 	= OpenSuccessNotification ...

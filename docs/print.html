@@ -455,9 +455,7 @@ validateName name =
 </ul>
 <h1><a class="header" href="#opaque-types" id="opaque-types">Opaque types</a></h1>
 <p>Opaque types are types that cannot be created outside of a specific module. For example:</p>
-<pre><code class="language-haskell">module Lib
-
-exposing (Config)
+<pre><code class="language-haskell">module Lib exposing (Config)
 
 type Config = Config { size: Int, style: Style }
 </code></pre>
@@ -468,17 +466,13 @@ type Config = Config { size: Int, style: Style }
 <li>Hiding the implementation to external modules. This is quite useful for building packages. Using opaque types makes it easier to change the implementation without breaking the code using it.</li>
 </ul>
 <h2><a class="header" href="#anti-pattern-3" id="anti-pattern-3">Anti-pattern</a></h2>
-<pre><code class="language-haskell">module Lib
-
-exposing (Config)
+<pre><code class="language-haskell">module Lib exposing (Config)
 
 type alias Config = { size: Int, style: Style }
 </code></pre>
 <p>This module exposes <code>Config</code> transparently. Any changes we want to make will require changes in the module using this. In the case of a package, if we remove or change a type in <code>Config</code> we will have to publish a major version of this package.</p>
 <h2><a class="header" href="#pattern-7" id="pattern-7">Pattern</a></h2>
-<pre><code class="language-haskell">module Lib
-
-exposing (Config, newConfig, withSize)
+<pre><code class="language-haskell">module Lib exposing (Config, newConfig, withSize)
 
 type Config = Config { size: Int, style: Style }
 
@@ -724,7 +718,7 @@ view model =
 <li>Return a value to the top level</li>
 </ul>
 <p>There are many way of achieving this. One possible way is to have a module with global actions e.g.</p>
-<pre><code class="language-haskell">module Actions exposing(..)
+<pre><code class="language-haskell">module Actions exposing (..)
 
 type Action
 	= OpenSuccessNotification ...

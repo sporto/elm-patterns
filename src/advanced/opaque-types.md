@@ -3,9 +3,7 @@
 Opaque types are types that cannot be created outside of a specific module. For example:
 
 ```haskell
-module Lib
-
-exposing (Config)
+module Lib exposing (Config)
 
 type Config = Config { size: Int, style: Style }
 ```
@@ -20,9 +18,7 @@ Opaque types are useful for:
 ## Anti-pattern
 
 ```haskell
-module Lib
-
-exposing (Config)
+module Lib exposing (Config)
 
 type alias Config = { size: Int, style: Style }
 ```
@@ -32,9 +28,7 @@ This module exposes `Config` transparently. Any changes we want to make will req
 ## Pattern
 
 ```haskell
-module Lib
-
-exposing (Config, newConfig, withSize)
+module Lib exposing (Config, newConfig, withSize)
 
 type Config = Config { size: Int, style: Style }
 
