@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.2.</strong> Global actions</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -627,6 +627,29 @@ flowPrioritizingQuantity quantity order =
 </code></pre>
 <p>In this way we can enforce specific processes without creating a myriad of intermediate types.</p>
 <p>See a working example here <a href="https://ellie-app.com/9SywZggd5m5a1">https://ellie-app.com/9SywZggd5m5a1</a></p>
+<h1><a class="header" href="#reusable-views" id="reusable-views">Reusable views</a></h1>
+<p>It is common to need reusable views in our applications. The most basic way in Elm is to have view functions that take message constructors as arguments.</p>
+<p>For example:</p>
+<pre><code class="language-haskell">type alias Args msg =
+	{ currentDate: Date
+	, isOpen: Bool
+	, onOpen: msg
+	, onClose: msg
+	, onSelectDate : Date -&gt; msg
+	}
+
+calendar : Args msg -&gt; Html msg
+calendar args =
+</code></pre>
+<p>This view is easy to integrate and reuse. However it requires the caller to keep track of the state e.g. <code>isOpen</code>.
+Another limitation is that this view is incapable of producing commands.</p>
+<h2><a class="header" href="#using-the-builder-pattern" id="using-the-builder-pattern">Using the builder pattern</a></h2>
+<p>Reusable views like these are perfect candidates for the builder pattern:</p>
+<pre><code class="language-haskell">Button.newArgs &quot;Clear selection&quot; Clear
+	|&gt; Button.withIcon IconClear
+	|&gt; Button.withSize Button.Wide
+	|&gt; Button.view
+</code></pre>
 <h1><a class="header" href="#the-nested-elm-architecture" id="the-nested-elm-architecture">The nested Elm architecture</a></h1>
 <p>When an application starts growing large we might want to break the application messages into discrete parts. For example:</p>
 <ul>

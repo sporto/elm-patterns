@@ -17,5 +17,6 @@
     - [Phantom types](./advanced/phantom-types.md)
     - [Process flow using phantom types](./advanced/flow-phantom-types.md)
 - [Architecture]()
+    - [Reusable views](./architecture/reusable-views.md)
     - [Nested TEA](./architecture/nested-tea.md)
     - [Global actions](./architecture/global-actions.md)
