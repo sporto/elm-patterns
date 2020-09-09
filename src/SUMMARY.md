@@ -13,6 +13,7 @@
     - [Railway](./advanced/railway.md)
     - [Pipeline builder](./advanced/pipeline-builder.md)
     - [Opaque types](./advanced/opaque-types.md)
+    - [Opaque types for enforcing invariants](./advanced/opaque-types-invariants.md)
     - [Process flow using phantom types](./advanced/flow-phantom-types.md)
 - [Architecture]()
     - [Nested TEA](./architecture/nested-tea.md)

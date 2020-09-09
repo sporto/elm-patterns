@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.4.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.2.</strong> Global actions</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.5.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.1.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.2.</strong> Global actions</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -464,9 +464,8 @@ type Config = Config { size: Int, style: Style }
 <p>This module expose the <code>Config</code> type but not the constructor. An external module can't construct or modify a <code>Config</code> type.</p>
 <p>Opaque types are useful for:</p>
 <ul>
-<li>Enforcing invariants: Only the relevant module can change the data. Other parts of the application cannot reach and change it.</li>
-<li>Hiding the implementation to external modules.</li>
-<li>Building packages as they hide the implementation of something. Hiding a type like this makes it easier to change the implementation without breaking the code using it.</li>
+<li>Enforcing invariants: Only the relevant module can change the data and ensure it follows some invariants.</li>
+<li>Hiding the implementation to external modules. This is quite useful for building packages. Using opaque types makes it easier to change the implementation without breaking the code using it.</li>
 </ul>
 <h2><a class="header" href="#anti-pattern-3" id="anti-pattern-3">Anti-pattern</a></h2>
 <pre><code class="language-haskell">module Lib
@@ -490,6 +489,24 @@ newConfig =
 withSize : Int -&gt; Config -&gt; Config
 </code></pre>
 <p>This module allows an application to create a <code>Config</code> and update it. But if we decide to change how we store the <code>Config</code> we can do so without any breaking changes for the caller module using this.</p>
+<p>The next page explains using opaque types for enforcing invariants.</p>
+<h1><a class="header" href="#opaque-types-for-enforcing-invariants" id="opaque-types-for-enforcing-invariants">Opaque types for enforcing invariants</a></h1>
+<p>Some times we want our data to always follow certain rules. E.g. We would like a list that is always sorted.</p>
+<p>Using opaque types we can create a module that enforces this invariant.</p>
+<pre><code class="language-haskell">module SortedList
+
+exposing (SortedList, new, add)
+
+type SortedList a = SortedList (List a)
+
+new : List a
+new =
+	SortedList []
+
+add : (a -&gt; a -&gt; Order) -&gt; a -&gt; SortedList a -&gt; SortedList a
+</code></pre>
+<p>Only this module can create a <code>SortedList</code> as we don't expose the constructor.</p>
+<p>Also, only this module can add an item to the list. By doing this we can enforce that the list is always sorted. External modules cannot change this data, so they are unable to break the sort invariant.</p>
 <h1><a class="header" href="#process-flow-using-phantom-types" id="process-flow-using-phantom-types">Process flow using phantom types</a></h1>
 <p>Sometimes we want to create a process that needs to follow different paths until it reaches an end point. Like a finite state machine.</p>
 <p>For example we want an order form where you can change the total or the quantity. When you change any of these two, the other value needs to change automatically.</p>

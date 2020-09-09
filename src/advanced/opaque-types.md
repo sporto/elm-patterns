@@ -14,9 +14,8 @@ This module expose the `Config` type but not the constructor. An external module
 
 Opaque types are useful for:
 
-- Enforcing invariants: Only the relevant module can change the data. Other parts of the application cannot reach and change it.
-- Hiding the implementation to external modules.
-- Building packages as they hide the implementation of something. Hiding a type like this makes it easier to change the implementation without breaking the code using it.
+- Enforcing invariants: Only the relevant module can change the data and ensure it follows some invariants.
+- Hiding the implementation to external modules. This is quite useful for building packages. Using opaque types makes it easier to change the implementation without breaking the code using it.
 
 ## Anti-pattern
 
@@ -47,4 +46,6 @@ withSize : Int -> Config -> Config
 ```
 
 This module allows an application to create a `Config` and update it. But if we decide to change how we store the `Config` we can do so without any breaking changes for the caller module using this.
+
+The next page explains using opaque types for enforcing invariants.
 
