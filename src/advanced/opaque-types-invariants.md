@@ -7,14 +7,14 @@ Using opaque types we can create a module that enforces this invariant.
 ```haskell
 module SortedList exposing (SortedList, new, add)
 
-type SortedList a =
-	SortedList (List a)
+type SortedList comparable =
+	SortedList (List comparable)
 
-new : SortedList a
+new : SortedList comparable
 new =
 	SortedList []
 
-add : (a -> a -> Order) -> a -> SortedList a -> SortedList a
+add : comparable -> SortedList comparable -> SortedList comparable
 ```
 
 Only this module can create a `SortedList` as we don't expose the constructor.

@@ -168,14 +168,14 @@
 <p>Using opaque types we can create a module that enforces this invariant.</p>
 <pre><code class="language-haskell">module SortedList exposing (SortedList, new, add)
 
-type SortedList a =
-	SortedList (List a)
+type SortedList comparable =
+	SortedList (List comparable)
 
-new : SortedList a
+new : SortedList comparable
 new =
 	SortedList []
 
-add : (a -&gt; a -&gt; Order) -&gt; a -&gt; SortedList a -&gt; SortedList a
+add : comparable -&gt; SortedList comparable -&gt; SortedList comparable
 </code></pre>
 <p>Only this module can create a <code>SortedList</code> as we don't expose the constructor.</p>
 <p>Also, only this module can add an item to the list. By doing this we can enforce that the list is always sorted. External modules cannot change this data, so they are unable to break the sort invariant.</p>
