@@ -18,7 +18,7 @@ case msg of
 					| stage = ReportVisible report
 					, loading =
 						if needsToLoadMoreData then
-							RemoteData.Loading
+							Loading
 						else
 							model.loading
 
@@ -27,7 +27,7 @@ case msg of
 				Cmd.batch
 					[
 					if needsToLoadMoreData then
-						loadMoreData
+						loadMoreDataCmd
 					else
 						Cmd.none
 					, setSomeValueInUrl
@@ -69,5 +69,16 @@ andThen fn ( model, cmd ) =
 
 This function takes another function that given the `model` returns a `(model, Cmd msg)` just like `update`.
 `andThen` takes care of batching commands together.
+
+Every function is the pipeline will be responsible for only one thing, which is a lot easier to understand. E.g.
+
+```haskell
+loadMoreDataIfNeeded : Model -> (Model, Cmd Msg)
+loadMoreDataIfNeeded model =
+	if needsToLoadMoreData model then
+		({model loading = Loading }, loadMoreDataCmd)
+	else
+		(model, Cmd.none)
+```
 
 [elm-return is a package that implements functions for this.](https://package.elm-lang.org/packages/Fresheyeball/elm-return/)

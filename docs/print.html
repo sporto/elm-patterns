@@ -802,7 +802,7 @@ type Action
 					| stage = ReportVisible report
 					, loading =
 						if needsToLoadMoreData then
-							RemoteData.Loading
+							Loading
 						else
 							model.loading
 
@@ -811,7 +811,7 @@ type Action
 				Cmd.batch
 					[
 					if needsToLoadMoreData then
-						loadMoreData
+						loadMoreDataCmd
 					else
 						Cmd.none
 					, setSomeValueInUrl
@@ -844,6 +844,14 @@ andThen fn ( model, cmd ) =
 </code></pre>
 <p>This function takes another function that given the <code>model</code> returns a <code>(model, Cmd msg)</code> just like <code>update</code>.
 <code>andThen</code> takes care of batching commands together.</p>
+<p>Every function is the pipeline will be responsible for only one thing, which is a lot easier to understand. E.g.</p>
+<pre><code class="language-haskell">loadMoreDataIfNeeded : Model -&gt; (Model, Cmd Msg)
+loadMoreDataIfNeeded model =
+	if needsToLoadMoreData model then
+		({model loading = Loading }, loadMoreDataCmd)
+	else
+		(model, Cmd.none)
+</code></pre>
 <p><a href="https://package.elm-lang.org/packages/Fresheyeball/elm-return/">elm-return is a package that implements functions for this.</a></p>
 
                     </main>
