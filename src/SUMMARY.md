@@ -20,3 +20,4 @@
     - [Reusable views](./architecture/reusable-views.md)
     - [Nested TEA](./architecture/nested-tea.md)
     - [Global actions](./architecture/global-actions.md)
+    - [Update return pipeline](./architecture/update-return-pipeline.md)

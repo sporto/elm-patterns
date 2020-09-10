@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li><li class="chapter-item expanded "><a href="architecture/update-return-pipeline.html"><strong aria-hidden="true">4.4.</strong> Update return pipeline</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -785,6 +785,66 @@ type Action
 <li>A nice pattern for adding actions is to mimic <code>Cmd.batch</code>. E.g. <code>Actions.batch</code>.</li>
 <li>We might need to send a message back to the module that returned the action. E.g. Open a dialog with selections. In this case our actions might need a message associated with them e.g. <code>Action Msg</code>. We will need a <code>Actions.map</code> to just like <code>Html.map</code>.</li>
 </ul>
+<h1><a class="header" href="#update-return-pipeline" id="update-return-pipeline">Update return pipeline</a></h1>
+<p>Sometimes in the our update function we need to do many different things. For example:</p>
+<ul>
+<li>Change the state of the model</li>
+<li>Change some value in the browser query</li>
+<li>Conditionally load more data</li>
+<li>Do some analytics tracking</li>
+</ul>
+<p>We can do all these things at once:</p>
+<pre><code class="language-haskell">case msg of
+	SeeReport report -&gt;
+		let
+			nextModel =
+				{ model
+					| stage = ReportVisible report
+					, loading =
+						if needsToLoadMoreData then
+							RemoteData.Loading
+						else
+							model.loading
+
+				}
+			cmd =
+				Cmd.batch
+					[
+					if needsToLoadMoreData then
+						loadMoreData
+					else
+						Cmd.none
+					, setSomeValueInUrl
+					, TrackEvent.track {... }
+					]
+		in
+		(nextModel, cmd)
+
+	... -&gt;
+</code></pre>
+<p>But in these cases our update branches can get very complex very quickly. Making them difficult to understand and ripe for bugs.</p>
+<h2><a class="header" href="#pattern-10" id="pattern-10">Pattern</a></h2>
+<p>A nice way to make many things in an update branch is to break them by concerns and create a &quot;return&quot; pipeline.</p>
+<pre><code class="language-haskell">case msg of
+	SeeReport report -&gt;
+		(model, Cmd.none)
+			|&gt; andThen (setStageToReportVisible report)
+			|&gt; andThen loadMoreDataIfNeeded
+			|&gt; andThen addKeyInUrl
+			|&gt; andThen trackSeeReportEvent
+</code></pre>
+<p>In this case <code>andThen</code> is a function like:</p>
+<pre><code class="language-haskell">andThen : (model -&gt; (model, Cmd msg)) -&gt; (model, Cmd msg) -&gt; (model, Cmd msg)
+andThen fn ( model, cmd ) =
+    let
+        ( nextModel, nextCmd ) =
+            fn model
+    in
+    ( nextModel, Cmd.batch [ cmd, nextCmd ] )
+</code></pre>
+<p>This function takes another function that given the <code>model</code> returns a <code>(model, Cmd msg)</code> just like <code>update</code>.
+<code>andThen</code> takes care of batching commands together.</p>
+<p><a href="https://package.elm-lang.org/packages/Fresheyeball/elm-return/">elm-return is a package that implements functions for this.</a></p>
 
                     </main>
 
