@@ -24,6 +24,4 @@ runEffects : List Effect -> Cmd Msg
 
 This makes a Elm application a lot more testable. This is approach taken by [elm-program-test](https://elm-program-test.netlify.app/cmds.html).
 
----
-
-A [blog post about this pattern](http://reasonableapproximation.net/2019/10/20/the-effect-pattern.html)
+Here is a more detailed [blog post about this pattern](http://reasonableapproximation.net/2019/10/20/the-effect-pattern.html).
