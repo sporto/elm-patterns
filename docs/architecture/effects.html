@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Phantom types - Elm Patterns</title>
+        <title>The effects pattern - Elm Patterns</title>
         
         
 
@@ -93,7 +93,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="../advanced/phantom-types.html" class="active"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="../architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li><li class="chapter-item expanded "><a href="../architecture/effects.html"><strong aria-hidden="true">4.4.</strong> The effects pattern</a></li><li class="chapter-item expanded "><a href="../architecture/update-return-pipeline.html"><strong aria-hidden="true">4.5.</strong> Update return pipeline</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="../advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="../architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li><li class="chapter-item expanded "><a href="../architecture/effects.html" class="active"><strong aria-hidden="true">4.4.</strong> The effects pattern</a></li><li class="chapter-item expanded "><a href="../architecture/update-return-pipeline.html"><strong aria-hidden="true">4.5.</strong> Update return pipeline</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,46 +163,37 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#phantom-types" id="phantom-types">Phantom types</a></h1>
-<p>Phantom types are types that have a type variable on the type that is not used constructors. E.g.</p>
-<pre><code class="language-haskell">type Users a =
-	Users (List User)
-</code></pre>
-<p>This type variable allows us to restrict what type a function can take and return. For example:</p>
-<pre><code class="language-haskell">type Active
-	= Active
+                        <h1><a class="header" href="#the-effects-pattern" id="the-effects-pattern">The effects pattern</a></h1>
+<p>In a usual Elm application the <code>update</code> function returns <code>(Model, Cmd Msg)</code>. Commands in Elm are an opaque types so testing update functions is not easy. We cannot easily inspect the commands and see if they are doing the right thing, we cannot also simulate these commands as we don't know what they are doing.</p>
+<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
+<p>What pattern to deal with this is returning an <code>Effect</code> type instead of <code>Cmd msg</code>.</p>
+<pre><code class="language-haskell">type Effect
+	= SaveUser User
+	| LogoutUser
+	| LoadData
+	| ...
 
-activeUsers : List User -&gt; Users Active
-activeUsers users =
-	users
-		|&gt; List.filter isActive
-		|&gt; Users
+update : Msg -&gt; Model -&gt; (Model, List Effect)
 </code></pre>
-<p><code>activeUsers</code> is a function that only takes all users and returns only active users.</p>
-<p>Phantom types are useful for things like:</p>
-<ul>
-<li>Enforcing invariants in functions and views</li>
-<li>Validation</li>
-<li>State machines</li>
-<li>Processes</li>
-</ul>
-<p>In the example below we could have a view that only takes active users:</p>
-<pre><code class="language-haskell">usersView : User Active -&gt; Html msg
+<p>At the last moment possible we will have a function that converts the <code>Effect</code> into actual commands:</p>
+<pre><code class="language-haskell">runEffects : List Effect -&gt; Cmd Msg
 </code></pre>
-<p>The compiler will complain if we try to pass all users to this view. In this way it can be sure that we are filtering users correctly.</p>
+<p>This makes a Elm application a lot more testable. This is approach taken by <a href="https://elm-program-test.netlify.app/cmds.html">elm-program-test</a>.</p>
+<hr />
+<p>A <a href="http://reasonableapproximation.net/2019/10/20/the-effect-pattern.html">blog post about this pattern</a></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../advanced/opaque-types-invariants.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../architecture/global-actions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="../advanced/flow-phantom-types.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../architecture/update-return-pipeline.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -214,13 +205,13 @@ activeUsers users =
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../advanced/opaque-types-invariants.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../architecture/global-actions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="../advanced/flow-phantom-types.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../architecture/update-return-pipeline.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
