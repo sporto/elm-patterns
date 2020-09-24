@@ -8,7 +8,7 @@ Then try to unwrap as late as possible.
 
 ## Example anti-patterns
 
-```elm
+```haskell
 displayPriceInDollars : Float -> String
 displayPriceInDollars price =
     "USD$" ++ String.fromFloat price
@@ -16,7 +16,7 @@ displayPriceInDollars price =
 
 There is nothing stopping us from passing something that is not dollars here (e.g. we might use Euros).
 
-```elm
+```haskell
 calculateTotalPrice: List Float -> Float
 ```
 
@@ -24,7 +24,7 @@ We could send a list of mixed currencies e.g. dollars and euros.
 
 ## Pattern
 
-```elm
+```haskell
 type Dollar = Dollar Float
 
 displayPriceInDollars : Dollar -> String

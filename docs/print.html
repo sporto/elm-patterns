@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li><li class="chapter-item expanded "><a href="architecture/effects.html"><strong aria-hidden="true">4.4.</strong> The effects pattern</a></li><li class="chapter-item expanded "><a href="architecture/update-return-pipeline.html"><strong aria-hidden="true">4.5.</strong> Update return pipeline</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li><li class="chapter-item expanded "><a href="basic/builder-pattern.html"><strong aria-hidden="true">2.7.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="basic/arguments-list.html"><strong aria-hidden="true">2.8.</strong> Arguments list</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li><li class="chapter-item expanded "><a href="architecture/effects.html"><strong aria-hidden="true">4.4.</strong> The effects pattern</a></li><li class="chapter-item expanded "><a href="architecture/update-return-pipeline.html"><strong aria-hidden="true">4.5.</strong> Update return pipeline</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -206,16 +206,16 @@ priceInDollar =
 <p>When you do this it is a good idea to wrap your types as early as possible. E.g. when decoding values from external sources.</p>
 <p>Then try to unwrap as late as possible.</p>
 <h2><a class="header" href="#example-anti-patterns" id="example-anti-patterns">Example anti-patterns</a></h2>
-<pre><code class="language-elm">displayPriceInDollars : Float -&gt; String
+<pre><code class="language-haskell">displayPriceInDollars : Float -&gt; String
 displayPriceInDollars price =
     &quot;USD$&quot; ++ String.fromFloat price
 </code></pre>
 <p>There is nothing stopping us from passing something that is not dollars here (e.g. we might use Euros).</p>
-<pre><code class="language-elm">calculateTotalPrice: List Float -&gt; Float
+<pre><code class="language-haskell">calculateTotalPrice: List Float -&gt; Float
 </code></pre>
 <p>We could send a list of mixed currencies e.g. dollars and euros.</p>
 <h2><a class="header" href="#pattern-1" id="pattern-1">Pattern</a></h2>
-<pre><code class="language-elm">type Dollar = Dollar Float
+<pre><code class="language-haskell">type Dollar = Dollar Float
 
 displayPriceInDollars : Dollar -&gt; String
 displayPriceInDollars (Dollar price) =
@@ -225,7 +225,7 @@ displayPriceInDollars (Dollar price) =
 <h1><a class="header" href="#unwrap-maybe-and-result-early" id="unwrap-maybe-and-result-early">Unwrap Maybe and Result early</a></h1>
 <p>If you have a <code>Maybe</code>, <code>Result</code> or <code>RemoteData</code> it is often a good idea to try to unwrap those as early as possible.</p>
 <h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
-<pre><code class="language-elm">userCard : Maybe User -&gt; Html Msg
+<pre><code class="language-haskell">userCard : Maybe User -&gt; Html Msg
 userCard maybeUser =
    div []
         [ userInfo maybeUser
@@ -234,10 +234,11 @@ userCard maybeUser =
 </code></pre>
 <p>In here both <code>userInfo</code> and <code>userActivy</code> get a <code>Maybe User</code>. Meaning that will need to unwrap this value several times in your views.</p>
 <h2><a class="header" href="#pattern-2" id="pattern-2">Pattern</a></h2>
-<pre><code class="language-elm">userCard maybeUser =
+<pre><code class="language-haskell">userCard maybeUser =
     case maybeUser of
         Nothing -&gt;
             div [] [ ... ]
+
         Just user -&gt;
             div []
                 [ userInfo user
@@ -245,9 +246,60 @@ userCard maybeUser =
                 ]
 </code></pre>
 <p>Here the sub views take a <code>User</code>, this makes most of your views easier to write and test. </p>
+<h1><a class="header" href="#make-impossible-states-impossible" id="make-impossible-states-impossible">Make impossible states impossible</a></h1>
+<p>Elm has a great and expressible type system. This type system allows us to avoid having impossible states in our application.</p>
+<h2><a class="header" href="#anti-pattern-1" id="anti-pattern-1">Anti-pattern</a></h2>
+<p>A common pattern is to have a boolean attribute to show a loading spinner while data is loading. e.g.</p>
+<pre><code class="language-haskell">type alias Model =
+    { isLoading: Bool
+    , data: Maybe Data
+    }
+</code></pre>
+<p>But in this type is possible to have something like <code>isLoading = false</code> and <code>data = Nothing</code>. What is the meaning of this? This is probably an impossible state that should never happen.</p>
+<h2><a class="header" href="#pattern-3" id="pattern-3">Pattern</a></h2>
+<p>Which Elm you can represent your types in ways that don't allow for impossible states. e.g</p>
+<pre><code class="language-haskell">type RemoteData
+    = Loading
+    | Loaded Data
+
+type alias Model =
+    { data : RemoteData }
+</code></pre>
+<p><a href="https://www.youtube.com/watch?v=IcgmSRJHu_8">Here is an excellent talk about this</a>.</p>
+<h1><a class="header" href="#parse-dont-validate" id="parse-dont-validate">Parse don't validate</a></h1>
+<p>When we have external data (e.g. user input or remote data) it is a common pattern to validate this data before using it.</p>
+<h2><a class="header" href="#anti-pattern-2" id="anti-pattern-2">Anti-pattern</a></h2>
+<p>A common approach is to ask if the data is valid and then use it e.g.</p>
+<pre><code class="language-haskell">type alias UserInput =
+    { name: Maybe String
+    , age: Maybe Int
+    }
+
+isValidUser : UserInput -&gt; Bool
+</code></pre>
+<p>The problem with this approach is that after doing this you still have a <code>UserInput</code> with can still hold invalid values.</p>
+<h2><a class="header" href="#pattern-4" id="pattern-4">Pattern</a></h2>
+<p>A better approach is to &quot;parse&quot; your input and return a known valid type. e.g.</p>
+<pre><code class="language-haskell"> type alias UserInput =
+    { name: Maybe String
+    , age: Maybe Int
+    }
+
+type alias ValidUser =
+    { name: String
+    , age: Int
+    }
+
+validateUser : UserInput -&gt; Result String ValidUser
+</code></pre>
+<p>In this way you ensure that you have a valid type to work with later on. Some examples where this is useful:</p>
+<ul>
+<li>Validating user input</li>
+<li>Parsing JSON from external sources</li>
+</ul>
 <h1><a class="header" href="#the-builder-pattern" id="the-builder-pattern">The builder pattern</a></h1>
 <p>When we need to pass many arguments to a function we might have something like</p>
-<pre><code class="language-elm">module Button exposing (..)
+<pre><code class="language-haskell">module Button exposing (..)
 
 type alias Args =
     { isEnabled: Bool
@@ -259,14 +311,14 @@ type alias Args =
 btn: Args -&gt; Html msg
 </code></pre>
 <p>In the caller module:</p>
-<pre><code class="language-elm">import Button
+<pre><code class="language-haskell">import Button
 
 Button.btn { isEnabled: True, label: &quot;Click me&quot;, ....}
 </code></pre>
 <p>The problem with this is that each time we add an argument to <code>Args</code> we need to change every single place where we call this function.</p>
-<h2><a class="header" href="#pattern-3" id="pattern-3">Pattern</a></h2>
+<h2><a class="header" href="#pattern-5" id="pattern-5">Pattern</a></h2>
 <p>With builder pattern we build the arguments with the minimum necessary information, then modify the arguments if we need to.</p>
-<pre><code class="language-elm">module Button exposing (..)
+<pre><code class="language-haskell">module Button exposing (..)
 
 newArgs: String -&gt; Args
 newArgs label =
@@ -284,7 +336,7 @@ btn: Args -&gt; Html msg
 </code></pre>
 <p>This modules exposes a function to create the initial arguments and a series of function to modify the arguments (commonly using <code>with</code> as prefix).</p>
 <p>Then the caller module uses this:</p>
-<pre><code class="language-elm">import Button
+<pre><code class="language-haskell">import Button
 
 aButton =
     Button.newArgs &quot;Click me&quot;
@@ -293,56 +345,27 @@ aButton =
         |&gt; Button.btn
 </code></pre>
 <p>The advantage of this is that adding new arguments to <code>Args</code> doesn't require us to change every caller.</p>
-<h1><a class="header" href="#make-impossible-states-impossible" id="make-impossible-states-impossible">Make impossible states impossible</a></h1>
-<p>Elm has a great and expressible type system. This type system allows us to avoid having impossible states in our application.</p>
-<h2><a class="header" href="#anti-pattern-1" id="anti-pattern-1">Anti-pattern</a></h2>
-<p>A common pattern is to have a boolean attribute to show a loading spinner while data is loading. e.g.</p>
-<pre><code class="language-elm">type alias Model =
-    { isLoading: Bool
-    , data: Maybe Data
-    }
+<h2><a class="header" href="#as-test-factories" id="as-test-factories">As test factories</a></h2>
+<p>This pattern is also very useful for tests. Similar to test factories in many languages. For example if we were testing a <code>User</code>, we could start with a basic user and then use the builder pattern to modify attributes for different tests.</p>
+<h1><a class="header" href="#arguments-list" id="arguments-list">Arguments list</a></h1>
+<p>The builder patterns gives us to build configuration. We could also use plain lists for this:</p>
+<pre><code class="language-haskell">view =
+  shape
+    [ scale 0.5 0.5 0.5
+    , position 0 -6 -13
+    , rotation -90 0 0
+    ]
 </code></pre>
-<p>But in this type is possible to have something like <code>isLoading = false</code> and <code>data = Nothing</code>. What is the meaning of this? This is probably an impossible state that should never happen.</p>
-<h2><a class="header" href="#pattern-4" id="pattern-4">Pattern</a></h2>
-<p>Which Elm you can represent your types in ways that don't allow for impossible states. e.g</p>
-<pre><code class="language-elm">type RemoteData
-    = Loading
-    | Loaded Data
+<p>Our module exposes a series of functions that return a common type e.g.</p>
+<pre><code class="language-haskell">scale : Float -&gt; Float -&gt; Float -&gt; Attribute
 
-type alias Model =
-    { data : RemoteData }
+rotation : Int -&gt; Int -&gt; Int -&gt; Attribute
 </code></pre>
-<p><a href="https://www.youtube.com/watch?v=IcgmSRJHu_8">Here is an excellent talk about this</a>.</p>
-<h1><a class="header" href="#parse-dont-validate" id="parse-dont-validate">Parse don't validate</a></h1>
-<p>When we have external data (e.g. user input or remote data) it is a common pattern to validate this data before using it.</p>
-<h2><a class="header" href="#anti-pattern-2" id="anti-pattern-2">Anti-pattern</a></h2>
-<p>A common approach is to ask if the data is valid and then use it e.g.</p>
-<pre><code class="language-elm">type alias UserInput =
-    { name: Maybe String
-    , age: Maybe Int
-    }
-
-isValidUser : UserInput -&gt; Bool
-</code></pre>
-<p>The problem with this approach is that after doing this you still have a <code>UserInput</code> with can still hold invalid values.</p>
-<h2><a class="header" href="#pattern-5" id="pattern-5">Pattern</a></h2>
-<p>A better approach is to &quot;parse&quot; your input and return a known valid type. e.g.</p>
-<pre><code class="language-elm"> type alias UserInput =
-    { name: Maybe String
-    , age: Maybe Int
-    }
-
-type alias ValidUser =
-    { name: String
-    , age: Int
-    }
-
-validateUser : UserInput -&gt; Result String ValidUser
-</code></pre>
-<p>In this way you ensure that you have a valid type to work with later on. Some examples where this is useful:</p>
+<p>Using that we can build a <code>List Attribute</code> and pass it to a function as configuration.</p>
+<p>This is the pattern used in elm/html, elm/svg, elm-css, elm-ui.</p>
 <ul>
-<li>Validating user input</li>
-<li>Parsing JSON from external sources</li>
+<li>This pattern is best used with Opaque types. As we don't usually want the caller to be able access the returned type (e.g. <code>Attribute</code>).</li>
+<li>This pattern is best when all arguments are optional as we cannot avoid having the caller pass an empty list.</li>
 </ul>
 <h1><a class="header" href="#the-railway-pattern" id="the-railway-pattern">The railway pattern</a></h1>
 <p>The railway pattern is a way of chaining operations where each might fail.
@@ -545,7 +568,7 @@ activeUsers users =
 </ul>
 <h2><a class="header" href="#anti-pattern-4" id="anti-pattern-4">Anti-pattern</a></h2>
 <p>One possible way of doing this is by creating intermediate types for our process:</p>
-<pre><code class="language-elm">
+<pre><code class="language-haskell">
 type alias InvalidOrder =
 	{ quantity : Maybe Int, total : Maybe Int }
 
@@ -598,7 +621,7 @@ type Done
 </code></pre>
 <p>This function can only take a <code>Step</code> that is in the <code>OrderWithTotal</code> state. And returns a <code>Step</code> in <code>Done</code> state.</p>
 <p>For our order state machine we need these functions:</p>
-<pre><code class="language-elm">setTotal : Int -&gt; Step Start -&gt; Step OrderWithTotal
+<pre><code class="language-haskell">setTotal : Int -&gt; Step Start -&gt; Step OrderWithTotal
 
 adjustQuantityFromTotal : Step OrderWithTotal -&gt; Step Done
 
@@ -612,7 +635,7 @@ done : Step Done -&gt; Order
 <p>These functions are state machine transitions. They only allow moving from specific states to other specific states.</p>
 <h3><a class="header" href="#flows" id="flows">Flows</a></h3>
 <p>And finally we can build the valid flows using these functions:</p>
-<pre><code class="language-elm">flowPrioritizingTotal total order =
+<pre><code class="language-haskell">flowPrioritizingTotal total order =
     Step order
         |&gt; setTotal total
         |&gt; adjustQuantityFromTotal

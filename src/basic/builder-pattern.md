@@ -2,7 +2,7 @@
 
 When we need to pass many arguments to a function we might have something like
 
-```elm
+```haskell
 module Button exposing (..)
 
 type alias Args =
@@ -17,7 +17,7 @@ btn: Args -> Html msg
 
 In the caller module:
 
-```elm
+```haskell
 import Button
 
 Button.btn { isEnabled: True, label: "Click me", ....}
@@ -29,7 +29,7 @@ The problem with this is that each time we add an argument to `Args` we need to 
 
 With builder pattern we build the arguments with the minimum necessary information, then modify the arguments if we need to.
 
-```elm
+```haskell
 module Button exposing (..)
 
 newArgs: String -> Args
@@ -51,7 +51,7 @@ This modules exposes a function to create the initial arguments and a series of 
 
 Then the caller module uses this:
 
-```elm
+```haskell
 import Button
 
 aButton =
@@ -62,3 +62,7 @@ aButton =
 ```
 
 The advantage of this is that adding new arguments to `Args` doesn't require us to change every caller.
+
+## As test factories
+
+This pattern is also very useful for tests. Similar to test factories in many languages. For example if we were testing a `User`, we could start with a basic user and then use the builder pattern to modify attributes for different tests.

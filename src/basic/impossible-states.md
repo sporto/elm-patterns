@@ -6,7 +6,7 @@ Elm has a great and expressible type system. This type system allows us to avoid
 
 A common pattern is to have a boolean attribute to show a loading spinner while data is loading. e.g.
 
-```elm
+```haskell
 type alias Model =
     { isLoading: Bool
     , data: Maybe Data
@@ -19,7 +19,7 @@ But in this type is possible to have something like `isLoading = false` and `dat
 
 Which Elm you can represent your types in ways that don't allow for impossible states. e.g
 
-```elm
+```haskell
 type RemoteData
     = Loading
     | Loaded Data

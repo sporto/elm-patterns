@@ -24,7 +24,7 @@ We want to design our code in way that:
 
 One possible way of doing this is by creating intermediate types for our process:
 
-```elm
+```haskell
 
 type alias InvalidOrder =
 	{ quantity : Maybe Int, total : Maybe Int }
@@ -77,7 +77,7 @@ This function can only take a `Step` that is in the `OrderWithTotal` state. And 
 
 For our order state machine we need these functions:
 
-```elm
+```haskell
 setTotal : Int -> Step Start -> Step OrderWithTotal
 
 adjustQuantityFromTotal : Step OrderWithTotal -> Step Done
@@ -97,7 +97,7 @@ These functions are state machine transitions. They only allow moving from speci
 
 And finally we can build the valid flows using these functions:
 
-```elm
+```haskell
 flowPrioritizingTotal total order =
     Step order
         |> setTotal total

@@ -6,7 +6,7 @@ When we have external data (e.g. user input or remote data) it is a common patte
 
 A common approach is to ask if the data is valid and then use it e.g.
 
-```elm
+```haskell
 type alias UserInput =
     { name: Maybe String
     , age: Maybe Int
@@ -21,7 +21,7 @@ The problem with this approach is that after doing this you still have a `UserIn
 
 A better approach is to "parse" your input and return a known valid type. e.g.
 
-```elm
+```haskell
  type alias UserInput =
     { name: Maybe String
     , age: Maybe Int

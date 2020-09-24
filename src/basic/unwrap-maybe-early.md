@@ -4,7 +4,7 @@ If you have a `Maybe`, `Result` or `RemoteData` it is often a good idea to try t
 
 ## Anti-pattern
 
-```elm
+```haskell
 userCard : Maybe User -> Html Msg
 userCard maybeUser =
    div []
@@ -17,11 +17,12 @@ In here both `userInfo` and `userActivy` get a `Maybe User`. Meaning that will n
 
 ## Pattern
 
-```elm
+```haskell
 userCard maybeUser =
     case maybeUser of
         Nothing ->
             div [] [ ... ]
+
         Just user ->
             div []
                 [ userInfo user

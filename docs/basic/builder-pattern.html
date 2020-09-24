@@ -93,7 +93,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html" class="active"><strong aria-hidden="true">2.5.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.6.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.7.</strong> Parse don't validate</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="../advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="../architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li><li class="chapter-item expanded "><a href="../architecture/effects.html"><strong aria-hidden="true">4.4.</strong> The effects pattern</a></li><li class="chapter-item expanded "><a href="../architecture/update-return-pipeline.html"><strong aria-hidden="true">4.5.</strong> Update return pipeline</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html" class="active"><strong aria-hidden="true">2.7.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/arguments-list.html"><strong aria-hidden="true">2.8.</strong> Arguments list</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="../advanced/phantom-types.html"><strong aria-hidden="true">3.5.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html"><strong aria-hidden="true">3.6.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="../architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li><li class="chapter-item expanded "><a href="../architecture/effects.html"><strong aria-hidden="true">4.4.</strong> The effects pattern</a></li><li class="chapter-item expanded "><a href="../architecture/update-return-pipeline.html"><strong aria-hidden="true">4.5.</strong> Update return pipeline</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -165,7 +165,7 @@
                     <main>
                         <h1><a class="header" href="#the-builder-pattern" id="the-builder-pattern">The builder pattern</a></h1>
 <p>When we need to pass many arguments to a function we might have something like</p>
-<pre><code class="language-elm">module Button exposing (..)
+<pre><code class="language-haskell">module Button exposing (..)
 
 type alias Args =
     { isEnabled: Bool
@@ -177,14 +177,14 @@ type alias Args =
 btn: Args -&gt; Html msg
 </code></pre>
 <p>In the caller module:</p>
-<pre><code class="language-elm">import Button
+<pre><code class="language-haskell">import Button
 
 Button.btn { isEnabled: True, label: &quot;Click me&quot;, ....}
 </code></pre>
 <p>The problem with this is that each time we add an argument to <code>Args</code> we need to change every single place where we call this function.</p>
 <h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
 <p>With builder pattern we build the arguments with the minimum necessary information, then modify the arguments if we need to.</p>
-<pre><code class="language-elm">module Button exposing (..)
+<pre><code class="language-haskell">module Button exposing (..)
 
 newArgs: String -&gt; Args
 newArgs label =
@@ -202,7 +202,7 @@ btn: Args -&gt; Html msg
 </code></pre>
 <p>This modules exposes a function to create the initial arguments and a series of function to modify the arguments (commonly using <code>with</code> as prefix).</p>
 <p>Then the caller module uses this:</p>
-<pre><code class="language-elm">import Button
+<pre><code class="language-haskell">import Button
 
 aButton =
     Button.newArgs &quot;Click me&quot;
@@ -211,19 +211,21 @@ aButton =
         |&gt; Button.btn
 </code></pre>
 <p>The advantage of this is that adding new arguments to <code>Args</code> doesn't require us to change every caller.</p>
+<h2><a class="header" href="#as-test-factories" id="as-test-factories">As test factories</a></h2>
+<p>This pattern is also very useful for tests. Similar to test factories in many languages. For example if we were testing a <code>User</code>, we could start with a basic user and then use the builder pattern to modify attributes for different tests.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../basic/unwrap-maybe-early.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../basic/parse-dont-validate.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="../basic/impossible-states.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../basic/arguments-list.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -235,13 +237,13 @@ aButton =
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../basic/unwrap-maybe-early.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../basic/parse-dont-validate.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="../basic/impossible-states.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../basic/arguments-list.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
