@@ -17,7 +17,7 @@ case msg of
 				{ model
 					| stage = ReportVisible report
 					, loading =
-						if needsToLoadMoreData then
+						if needsToLoadMoreData model then
 							Loading
 						else
 							model.loading
@@ -26,7 +26,7 @@ case msg of
 			cmd =
 				Cmd.batch
 					[
-					if needsToLoadMoreData then
+					if needsToLoadMoreData model then
 						loadMoreDataCmd
 					else
 						Cmd.none
@@ -76,7 +76,7 @@ Every function is the pipeline will be responsible for only one thing, which is 
 loadMoreDataIfNeeded : Model -> (Model, Cmd Msg)
 loadMoreDataIfNeeded model =
 	if needsToLoadMoreData model then
-		({model loading = Loading }, loadMoreDataCmd)
+		({ model | loading = Loading }, loadMoreDataCmd)
 	else
 		(model, Cmd.none)
 ```
