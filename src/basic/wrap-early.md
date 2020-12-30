@@ -1,6 +1,6 @@
 # Wrap early, unwrap late
 
-To avoid type blidness, you probably want to wrap your values in unique types.
+To avoid type blindness, you probably want to wrap your values in unique types.
 
 When you do this it is a good idea to wrap your types as early as possible. E.g. when decoding values from external sources.
 
