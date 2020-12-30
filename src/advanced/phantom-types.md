@@ -20,7 +20,7 @@ activeUsers users =
 		|> Users
 ```
 
-`activeUsers` is a function that only takes all users and returns only active users.
+`activeUsers` is a function that takes all users and only returns active users.
 
 Phantom types are useful for things like:
 
