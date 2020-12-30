@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Process flow using phantom types - Elm Patterns</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Elm patterns</a></li><li class="chapter-item expanded "><strong aria-hidden="true">2.</strong> Basic patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../basic/type-blindness.html"><strong aria-hidden="true">2.1.</strong> Type blindness</a></li><li class="chapter-item expanded "><a href="../basic/named-arguments.html"><strong aria-hidden="true">2.2.</strong> Named arguments</a></li><li class="chapter-item expanded "><a href="../basic/wrap-early.html"><strong aria-hidden="true">2.3.</strong> Wrap early, unwrap late</a></li><li class="chapter-item expanded "><a href="../basic/unwrap-maybe-early.html"><strong aria-hidden="true">2.4.</strong> Unwrap maybe early</a></li><li class="chapter-item expanded "><a href="../basic/impossible-states.html"><strong aria-hidden="true">2.5.</strong> Make impossible states impossible</a></li><li class="chapter-item expanded "><a href="../basic/parse-dont-validate.html"><strong aria-hidden="true">2.6.</strong> Parse don't validate</a></li><li class="chapter-item expanded "><a href="../basic/builder-pattern.html"><strong aria-hidden="true">2.7.</strong> The builder pattern</a></li><li class="chapter-item expanded "><a href="../basic/arguments-list.html"><strong aria-hidden="true">2.8.</strong> Arguments list</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">3.</strong> Advanced patterns</li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced/railway.html"><strong aria-hidden="true">3.1.</strong> Railway</a></li><li class="chapter-item expanded "><a href="../advanced/pipeline-builder.html"><strong aria-hidden="true">3.2.</strong> Pipeline builder</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types.html"><strong aria-hidden="true">3.3.</strong> Opaque types</a></li><li class="chapter-item expanded "><a href="../advanced/opaque-types-invariants.html"><strong aria-hidden="true">3.4.</strong> Opaque types for enforcing invariants</a></li><li class="chapter-item expanded "><a href="../advanced/combinators.html"><strong aria-hidden="true">3.5.</strong> Combinators</a></li><li class="chapter-item expanded "><a href="../advanced/phantom-types.html"><strong aria-hidden="true">3.6.</strong> Phantom types</a></li><li class="chapter-item expanded "><a href="../advanced/flow-phantom-types.html" class="active"><strong aria-hidden="true">3.7.</strong> Process flow using phantom types</a></li></ol></li><li class="chapter-item expanded "><strong aria-hidden="true">4.</strong> Architecture</li><li><ol class="section"><li class="chapter-item expanded "><a href="../architecture/reusable-views.html"><strong aria-hidden="true">4.1.</strong> Reusable views</a></li><li class="chapter-item expanded "><a href="../architecture/nested-tea.html"><strong aria-hidden="true">4.2.</strong> Nested TEA</a></li><li class="chapter-item expanded "><a href="../architecture/global-actions.html"><strong aria-hidden="true">4.3.</strong> Global actions</a></li><li class="chapter-item expanded "><a href="../architecture/effects.html"><strong aria-hidden="true">4.4.</strong> The effects pattern</a></li><li class="chapter-item expanded "><a href="../architecture/update-return-pipeline.html"><strong aria-hidden="true">4.5.</strong> Update return pipeline</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Elm Patterns</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/sporto/elm-patterns" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#process-flow-using-phantom-types" id="process-flow-using-phantom-types">Process flow using phantom types</a></h1>
+<p>Sometimes we want to create a process that needs to follow different paths until it reaches an end point. Like a finite state machine.</p>
+<p>For example we want an order form where you can change the total or the quantity. When you change any of these two, the other value needs to change automatically.</p>
+<p><img src="flow-phantom-types/form.png" alt="Form" /></p>
+<ul>
+<li>When the user updates the total we want to update the quantity</li>
+<li>When the user updates the quantity we want to update the total</li>
+</ul>
+<p>These two flows can be illustrated with a state machine:</p>
+<p><img src="flow-phantom-types/state-machine.png" alt="State machine" /></p>
+<p>This is a simple example to illustrate this pattern. This particular example can be done with less ceremony, but in more complex scenarios this pattern is really valuable.</p>
+<p>We want to design our code in way that:</p>
+<ul>
+<li>Enforces running through the process steps in the correct order (depending on the user intention)</li>
+<li>Doesn't let us forget a step</li>
+</ul>
+<h2><a class="header" href="#anti-pattern" id="anti-pattern">Anti-pattern</a></h2>
+<p>One possible way of doing this is by creating intermediate types for our process:</p>
+<pre><code class="language-haskell">
+type alias InvalidOrder =
+	{ quantity : Maybe Int, total : Maybe Int }
+
+type alias OrderWithQuantity =
+	{ quantity : Int, total: Maybe Int }
+
+type alias OrderWithTotal =
+	{ quantity : Maybe Int, total: Int }
+
+type alias Order =
+	{ quantity : Int, total : Int }
+
+setTotal : Int -&gt; InvalidOrder -&gt; OrderWithTotal
+
+adjustQuantityFromTotal : OrderWithTotal -&gt; Order
+
+setQuantity : Int -&gt; InvalidOrder -&gt; OrderWithQuantity
+
+adjustTotalFromQuantity : OrderWithQuantity -&gt; Order
+</code></pre>
+<p>Although this is not too bad here, if we were to have more paths and attributes the multiplication of intermediate types would get out of hand really quickly.</p>
+<h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
+<p><strong>Phantom types</strong> allow us to deal with this in an elegant way.</p>
+<h3><a class="header" href="#state-machine-states" id="state-machine-states">State machine states</a></h3>
+<p>First we need some types to define the state machine states:</p>
+<pre><code class="language-haskell">type Step step
+    = Step Order
+
+
+type Start
+    = Start
+
+
+type OrderWithTotal
+    = OrderWithTotal
+
+
+type OrderWithQuantity
+    = OrderWithQuantity
+
+
+type Done
+    = Done
+</code></pre>
+<p>The <code>phantom type</code> here is in <code>Step</code>. Note how it defines a <code>step</code> type variable that is not used in the constructor.</p>
+<h3><a class="header" href="#transitions" id="transitions">Transitions</a></h3>
+<p>Then we can create transition functions that use the phantom type to restrict what they take and return.</p>
+<p>For example:</p>
+<pre><code>adjustQuantityFromTotal : Step OrderWithTotal -&gt; Step Done
+</code></pre>
+<p>This function can only take a <code>Step</code> that is in the <code>OrderWithTotal</code> state. And returns a <code>Step</code> in <code>Done</code> state.</p>
+<p>For our order state machine we need these functions:</p>
+<pre><code class="language-haskell">setTotal : Int -&gt; Step Start -&gt; Step OrderWithTotal
+
+adjustQuantityFromTotal : Step OrderWithTotal -&gt; Step Done
+
+setQuantity : Int -&gt; Step Start -&gt; Step OrderWithQuantity
+
+adjustTotalFromQuantity : Step OrderWithQuantity -&gt; Step Done
+
+done : Step Done -&gt; Order
+</code></pre>
+<p><img src="flow-phantom-types/state-machine.png" alt="State machine" /></p>
+<p>These functions are state machine transitions. They only allow moving from specific states to other specific states.</p>
+<h3><a class="header" href="#flows" id="flows">Flows</a></h3>
+<p>And finally we can build the valid flows using these functions:</p>
+<pre><code class="language-haskell">flowPrioritizingTotal total order =
+    Step order
+        |&gt; setTotal total
+        |&gt; adjustQuantityFromTotal
+        |&gt; done
+
+
+flowPrioritizingQuantity quantity order =
+    Step order
+        |&gt; setQuantity quantity
+        |&gt; adjustTotalFromQuantity
+        |&gt; done
+</code></pre>
+<p>In this way we can enforce specific processes without creating a myriad of intermediate types.</p>
+<p>See a working example here <a href="https://ellie-app.com/9SywZggd5m5a1">https://ellie-app.com/9SywZggd5m5a1</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../advanced/phantom-types.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../architecture/reusable-views.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../advanced/phantom-types.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../architecture/reusable-views.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
