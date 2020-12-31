@@ -1,5 +1,7 @@
 # Elm Patterns
 
+![github pages](https://github.com/sporto/elm-patterns/workflows/github%20pages/badge.svg)
+
 A collection of common patterns in Elm <http://sporto.github.io/elm-patterns/>.
 
 ## Development
