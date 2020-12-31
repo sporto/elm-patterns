@@ -8,6 +8,14 @@ A collection of common patterns in Elm <http://sporto.github.io/elm-patterns/>.
 
 This book uses mdbook: <https://github.com/rust-lang/mdBook>
 
+To view locally run
+
+```
+mdbook serve -p 5000
+```
+
+Deployment is done automatically via github actions (No need to build the book).
+
 ## Contributing
 
 This guide documents patterns that are commonly used in Elm applications.
@@ -18,5 +26,3 @@ This guide documents patterns that are commonly used in Elm applications.
 - The pattern explanation doesn't need to be thorough (i.e. show all the code). As long at it conveys the idea and benefits. Linking to a more detailed source is great.
 - These patterns should try to align with the community recommendations and best practices.
 - Write in first person voice using the pronoun "we". E.g. "We might choose to use X".
-
-
