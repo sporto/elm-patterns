@@ -164,9 +164,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#the-effects-pattern" id="the-effects-pattern">The effects pattern</a></h1>
-<p>In a usual Elm application the <code>update</code> function returns <code>(Model, Cmd Msg)</code>. Commands in Elm are an opaque types so testing update functions is not easy. We cannot easily inspect the commands and see if they are doing the right thing, we cannot also simulate these commands as we don't know what they are doing.</p>
+<p>In a usual Elm application the <code>update</code> function returns <code>(Model, Cmd Msg)</code>. <code>Cmd</code> in Elm is an opaque type so <code>update</code> functions are not easy to test. We cannot easily inspect the commands and see if they are doing the right thing. We cannot also simulate these commands as we don't know what they are doing.</p>
 <h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
-<p>What pattern to deal with this is returning an <code>Effect</code> type instead of <code>Cmd msg</code>.</p>
+<p>The <strong>effects pattern</strong> allows us to deal with these issues by returning an <code>Effect</code> type instead of <code>Cmd msg</code> from <code>update</code>.</p>
 <pre><code class="language-haskell">type Effect
 	= SaveUser User
 	| LogoutUser
@@ -175,7 +175,7 @@
 
 update : Msg -&gt; Model -&gt; (Model, List Effect)
 </code></pre>
-<p>At the last moment possible we will have a function that converts the <code>Effect</code> into actual commands:</p>
+<p>At the last possible moment we convert the <code>Effect</code> into actual commands. E.g. in the root module of the app we would have a function like:</p>
 <pre><code class="language-haskell">runEffects : List Effect -&gt; Cmd Msg
 </code></pre>
 <p>This makes a Elm application a lot more testable. This is approach taken by <a href="https://elm-program-test.netlify.app/cmds.html">elm-program-test</a>.</p>
