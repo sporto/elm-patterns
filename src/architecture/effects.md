@@ -1,10 +1,10 @@
 # The effects pattern
 
-In a usual Elm application the `update` function returns `(Model, Cmd Msg)`. Commands in Elm are an opaque types so testing update functions is not easy. We cannot easily inspect the commands and see if they are doing the right thing, we cannot also simulate these commands as we don't know what they are doing.
+In a usual Elm application the `update` function returns `(Model, Cmd Msg)`. `Cmd` in Elm is an opaque type so `update` functions are not easy to test. We cannot easily inspect the commands and see if they are doing the right thing. We cannot also simulate these commands as we don't know what they are doing.
 
 ## Pattern
 
-What pattern to deal with this is returning an `Effect` type instead of `Cmd msg`.
+The **effects pattern** allows us to deal with these issues by returning an `Effect` type instead of `Cmd msg` from `update`.
 
 ```haskell
 type Effect
@@ -16,7 +16,7 @@ type Effect
 update : Msg -> Model -> (Model, List Effect)
 ```
 
-At the last moment possible we will have a function that converts the `Effect` into actual commands:
+At the last possible moment we convert the `Effect` into actual commands. E.g. in the root module of the app we would have a function like:
 
 ```haskell
 runEffects : List Effect -> Cmd Msg
