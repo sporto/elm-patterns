@@ -10,6 +10,7 @@
     - [Parse don't validate](./basic/parse-dont-validate.md)
     - [The builder pattern](./basic/builder-pattern.md)
     - [Arguments list](./basic/arguments-list.md)
+    - [Minimize Boolean Usage](./basic/minimize-boolean.md)
 - [Advanced patterns]()
     - [Railway](./advanced/railway.md)
     - [Pipeline builder](./advanced/pipeline-builder.md)
