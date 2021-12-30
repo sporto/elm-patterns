@@ -1,9 +1,8 @@
 # Type iterator
 
-When we have a list of all the variants in our custom type, 
-sometimes that list can get out-of-sync when we add a new variant.
+When we have a list of all the variants in our custom type, sometimes that list can get out-of-sync when we add a new variant.
 
-```elm
+```haskell
 module Color exposing (Color(..), all)
 
 type Color
@@ -18,13 +17,12 @@ all =
     -- Forgot to add Blue here
 ```
 
-It would be nice if the compiler could remind us. 
+It would be nice if the compiler could remind us.
 Especially so if there are many variants.
 
-We can get the compiler to remind us a missing variant by 
-building our list with a `case` statement.
+We can get the compiler to remind us of a missing variant by building our list with a `case` statement.
 
-```elm
+```haskell
 module Color exposing (Color(..), all)
 
 type Color
@@ -42,11 +40,11 @@ next list =
     case List.head list of
         Nothing ->
             Red :: list |> next
-        
+
         Just Red ->
             Yellow :: list |> next
 
-        Just Yellow -> 
+        Just Yellow ->
             Green :: list |> next
 
         Just Green ->
