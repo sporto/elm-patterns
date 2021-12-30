@@ -410,9 +410,8 @@ rotation : Int -&gt; Int -&gt; Int -&gt; Attribute
 <li>This pattern is best when all arguments are optional as we cannot avoid having the caller pass an empty list.</li>
 </ul>
 <h1><a class="header" href="#type-iterator" id="type-iterator">Type iterator</a></h1>
-<p>When we have a list of all the variants in our custom type, 
-sometimes that list can get out-of-sync when we add a new variant.</p>
-<pre><code class="language-elm">module Color exposing (Color(..), all)
+<p>When we have a list of all the variants in our custom type, sometimes that list can get out-of-sync when we add a new variant.</p>
+<pre><code class="language-haskell">module Color exposing (Color(..), all)
 
 type Color
     = Red
@@ -425,11 +424,10 @@ all =
     [ Red, Yellow, Green ]
     -- Forgot to add Blue here
 </code></pre>
-<p>It would be nice if the compiler could remind us. 
+<p>It would be nice if the compiler could remind us.
 Especially so if there are many variants.</p>
-<p>We can get the compiler to remind us a missing variant by 
-building our list with a <code>case</code> statement.</p>
-<pre><code class="language-elm">module Color exposing (Color(..), all)
+<p>We can get the compiler to remind us of a missing variant by building our list with a <code>case</code> statement.</p>
+<pre><code class="language-haskell">module Color exposing (Color(..), all)
 
 type Color
     = Red
@@ -446,11 +444,11 @@ next list =
     case List.head list of
         Nothing -&gt;
             Red :: list |&gt; next
-        
+
         Just Red -&gt;
             Yellow :: list |&gt; next
 
-        Just Yellow -&gt; 
+        Just Yellow -&gt;
             Green :: list |&gt; next
 
         Just Green -&gt;
