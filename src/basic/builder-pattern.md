@@ -6,9 +6,9 @@ When we need to pass many arguments to a function we might have something like
 module Button exposing (..)
 
 type alias Args =
-    { isEnabled: Bool
-    , label: String
-    , hexColor: String
+    { isEnabled : Bool
+    , label : String
+    , hexColor : String
     , ...
     }
 
@@ -20,7 +20,7 @@ In the caller module:
 ```haskell
 import Button
 
-Button.btn { isEnabled: True, label: "Click me", ....}
+Button.btn { isEnabled = True, label = "Click me", ....}
 ```
 
 The problem with this is that each time we add an argument to `Args` we need to change every single place where we call this function.
@@ -42,7 +42,7 @@ newArgs label =
 
 withIsEnabled : Bool -> Args -> Args
 withIsEnabled isEnabled args =
-    { args | isEnabled = isEnabled}
+    { args | isEnabled = isEnabled }
 
 btn: Args -> Html msg
 ```
