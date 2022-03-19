@@ -168,9 +168,9 @@
 <pre><code class="language-haskell">module Button exposing (..)
 
 type alias Args =
-    { isEnabled: Bool
-    , label: String
-    , hexColor: String
+    { isEnabled : Bool
+    , label : String
+    , hexColor : String
     , ...
     }
 
@@ -179,7 +179,7 @@ btn: Args -&gt; Html msg
 <p>In the caller module:</p>
 <pre><code class="language-haskell">import Button
 
-Button.btn { isEnabled: True, label: &quot;Click me&quot;, ....}
+Button.btn { isEnabled = True, label = &quot;Click me&quot;, ....}
 </code></pre>
 <p>The problem with this is that each time we add an argument to <code>Args</code> we need to change every single place where we call this function.</p>
 <h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
@@ -196,7 +196,7 @@ newArgs label =
 
 withIsEnabled : Bool -&gt; Args -&gt; Args
 withIsEnabled isEnabled args =
-    { args | isEnabled = isEnabled}
+    { args | isEnabled = isEnabled }
 
 btn: Args -&gt; Html msg
 </code></pre>
