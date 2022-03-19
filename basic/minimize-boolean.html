@@ -164,10 +164,10 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#minimize-boolean-usage" id="minimize-boolean-usage">Minimize boolean usage</a></h1>
-<p>Boolean ambiguity can lead to loss of intent and loss of information in our code, resulting in ambigous logic. To avoid this issue, we should prefer self-documenting alternatives whenever the intention is unclear.</p>
+<p>Boolean ambiguity can lead to loss of intent and loss of information in our code, resulting in ambiguous logic. To avoid this issue, we should prefer self-documenting alternatives whenever the intention is unclear.</p>
 <p>This pattern is inspired by <a href="https://github.com/jfairbank">Jeremy Fairbank</a>'s <a href="https://www.youtube.com/watch?v=6TDKHGtAxeg">&quot;Solving the Boolean Identity Crisis&quot;</a> talk and <a href="https://programming-elm.com/blog/2019-05-20-solving-the-boolean-identity-crisis-part-1/">series of articles</a>, where he explains the rationale and the pattern in great details, if you want to delve deeper.</p>
 <h2><a class="header" href="#boolean-ambiguity" id="boolean-ambiguity">Boolean Ambiguity</a></h2>
-<p>Boolean arguments can make code confusing and harder to mantain by hiding the intent of code.</p>
+<p>Boolean arguments can make code confusing and harder to maintain by hiding the intent of code.</p>
 <h3><a class="header" href="#anti-pattern-1" id="anti-pattern-1">Anti-Pattern 1</a></h3>
 <p>What is the significance of the <code>True</code> value here without looking up the definition of <code>bookFlight</code>?</p>
 <pre><code class="language-haskell">bookFlight &quot;ELM&quot; True
@@ -183,7 +183,7 @@
 <pre><code class="language-haskell">bookFlight &quot;ELM&quot; Premium
 </code></pre>
 <h2><a class="header" href="#boolean-blindness" id="boolean-blindness">Boolean Blindness</a></h2>
-<p>Returning Boolean from a function can lead to boolean blindness. This happens because we get a value that the type system cannot use for enforcing further logic in the program.</p>
+<p>Returning <code>Bool</code> from a function can lead to boolean blindness. This happens because we get a value that the type system cannot use for enforcing further logic in the program.</p>
 <h3><a class="header" href="#anti-pattern-2" id="anti-pattern-2">Anti-Pattern 2</a></h3>
 <p>For example:</p>
 <pre><code class="language-haskell">time =
@@ -193,7 +193,7 @@
     else
         showErrors formData
 </code></pre>
-<p>In this snippet <code>isValid</code> only returns a <code>Boolean</code>. We can call <code>submitForm</code> with the original <code>formData</code>. The compiler wouldn't complain if we swap the if-else branches.</p>
+<p>In this snippet <code>isValid</code> only returns a <code>Bool</code>. We can call <code>submitForm</code> with the original <code>formData</code>. The compiler wouldn't complain if we swap the if-else branches.</p>
 <h3><a class="header" href="#pattern-2" id="pattern-2">Pattern 2</a></h3>
 <p>Replace boolean return values with custom types to eliminate boolean blindness and leverage the compiler for safer code. In this example we do it with a <code>Result Error Type</code>:</p>
 <pre><code class="language-haskell">time =
