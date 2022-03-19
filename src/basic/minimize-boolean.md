@@ -1,12 +1,12 @@
 # Minimize boolean usage
 
-Boolean ambiguity can lead to loss of intent and loss of information in our code, resulting in ambigous logic. To avoid this issue, we should prefer self-documenting alternatives whenever the intention is unclear.
+Boolean ambiguity can lead to loss of intent and loss of information in our code, resulting in ambiguous logic. To avoid this issue, we should prefer self-documenting alternatives whenever the intention is unclear.
 
 This pattern is inspired by [Jeremy Fairbank](https://github.com/jfairbank)'s ["Solving the Boolean Identity Crisis"](https://www.youtube.com/watch?v=6TDKHGtAxeg) talk and [series of articles](https://programming-elm.com/blog/2019-05-20-solving-the-boolean-identity-crisis-part-1/), where he explains the rationale and the pattern in great details, if you want to delve deeper.
 
 ## Boolean Ambiguity
 
-Boolean arguments can make code confusing and harder to mantain by hiding the intent of code.
+Boolean arguments can make code confusing and harder to maintain by hiding the intent of code.
 
 ### Anti-Pattern 1
 
@@ -35,7 +35,7 @@ bookFlight "ELM" Premium
 
 ## Boolean Blindness
 
-Returning Boolean from a function can lead to boolean blindness. This happens because we get a value that the type system cannot use for enforcing further logic in the program.
+Returning `Bool` from a function can lead to boolean blindness. This happens because we get a value that the type system cannot use for enforcing further logic in the program.
 
 ### Anti-Pattern 2
 
@@ -50,7 +50,7 @@ time =
         showErrors formData
 ```
 
-In this snippet `isValid` only returns a `Boolean`. We can call `submitForm` with the original `formData`. The compiler wouldn't complain if we swap the if-else branches.
+In this snippet `isValid` only returns a `Bool`. We can call `submitForm` with the original `formData`. The compiler wouldn't complain if we swap the if-else branches.
 
 ### Pattern 2
 
