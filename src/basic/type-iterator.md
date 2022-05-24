@@ -20,7 +20,11 @@ all =
 It would be nice if the compiler could remind us.
 Especially so if there are many variants.
 
-We can get the compiler to remind us of a missing variant by building our list with a `case` statement.
+There are at least two solutions to this.
+
+The first one is using an [`elm-review`](https://package.elm-lang.org/packages/jfmengels/elm-review/latest/) rule [`NoMissingTypeConstructor`](https://package.elm-lang.org/packages/Arkham/elm-review-no-missing-type-constructor/latest/) that automatically checks lists of custom type constructors named `all*` and warns when they get out of sync.
+
+The second one is to get the compiler to remind us of a missing variant by building our list with a `case` statement.
 
 ```haskell
 module Color exposing (Color(..), all)
