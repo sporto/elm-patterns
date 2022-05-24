@@ -426,7 +426,9 @@ all =
 </code></pre>
 <p>It would be nice if the compiler could remind us.
 Especially so if there are many variants.</p>
-<p>We can get the compiler to remind us of a missing variant by building our list with a <code>case</code> statement.</p>
+<p>There are at least two solutions to this.</p>
+<p>The first one is using an <a href="https://package.elm-lang.org/packages/jfmengels/elm-review/latest/"><code>elm-review</code></a> rule <a href="https://package.elm-lang.org/packages/Arkham/elm-review-no-missing-type-constructor/latest/"><code>NoMissingTypeConstructor</code></a> that automatically checks lists of custom type constructors named <code>all*</code> and warns when they get out of sync.</p>
+<p>The second one is to get the compiler to remind us of a missing variant by building our list with a <code>case</code> statement.</p>
 <pre><code class="language-haskell">module Color exposing (Color(..), all)
 
 type Color
