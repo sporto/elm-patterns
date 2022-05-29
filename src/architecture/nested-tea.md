@@ -111,6 +111,6 @@ view model =
 This pattern comes with its own set of challenges like:
 
 - Added boilerplate
-- It is not simple for the child module to communicate with the parent module.
+- It is not simple for the child module to communicate with the parent module (see [Outer messages](./outer-message.html)).
 
 So this pattern is best used sparingly.
