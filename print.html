@@ -904,39 +904,52 @@ view model =
 <h1><a class="header" href="#translator" id="translator">Translator</a></h1>
 <p>As described in <a href="architecture/./nested-tea.html">Nested TEA</a> it is sometimes useful to create a nested Elm architecture. When making this we normally would use <code>Html.map</code> to route messages back to the nested module.</p>
 <p>For example, in the parent container you would have:</p>
-<pre><code class="language-haskell">Sub.view model.subViewModel |&gt; Html.map SubMsg
+<pre><code class="language-haskell">module Parent exposing(..)
+
+import Child
+
+Child.view model.childModel |&gt; Html.map ChildMsg
 </code></pre>
-<p>The challenge of using <code>Html.map</code> here is that messages produced in the child module always need to map back to itself. We easily produce a message in the child module destined to its parent.</p>
-<p>As an application grows it is common to encounter something like that, suddendly you need a UI element in the child module that needs to send the message to the parent.</p>
+<p>The challenge of using <code>Html.map</code> here is that messages produced in the child module always need to route back to itself. We cannot easily produce a message in the child destined to its parent.</p>
+<p>As an application grows it is common to encounter something like this, perhaps we need a UI element in the child module that needs to send the message to its parent.</p>
 <h2><a class="header" href="#pattern-10" id="pattern-10">Pattern</a></h2>
-<p>The solution to this is to make the child module views generic, so instead of <code>View Msg</code> they become <code>View msg</code>. We then explicitly pass the constructor to route messages.</p>
-<p>Say you start with a child module with a view like:</p>
-<pre><code class="language-haskell">view: Model -&gt; Html Msg
+<p>The solution to this is to make the child module views generic and provide a constructor for routing messages. So, instead of <code>View Msg</code> in the child module, it becomes <code>View msg</code>. Then the parent explicitly provides the constructor to route messages.</p>
+<p>For example, we have a child module with a view like:</p>
+<pre><code class="language-haskell">module Child exposing(..)
+
+view: Model -&gt; Html Msg
 view model =
   div []
   [ button [ onClick Clicked ] [ text model.name ]
   ]
 </code></pre>
-<p>We want to add another button, but this time it should send a message to the parent.</p>
-<h3><a class="header" href="#make-the-children-generic" id="make-the-children-generic">Make the children generic</a></h3>
-<p>First we need to make this child view generic.</p>
-<pre><code class="language-haskell">view: Model -&gt; (Msg -&gt; msg) -&gt; Html msg
+<p>We want to add another button, but this time it should send a message to its parent.</p>
+<h3><a class="header" href="#first-make-the-child-module-generic" id="first-make-the-child-module-generic">First, make the child module generic</a></h3>
+<pre><code class="language-haskell">module Child exposing(..)
+
+view: Model -&gt; (Msg -&gt; msg) -&gt; Html msg
 view model toSelf =
   div []
   [ button [ onClick (toSelf Clicked) ] [ text model.name ]
   ]
 </code></pre>
-<p>To <code>toSelf</code> message is a constructor that wraps the internal message. This replaces <code>Html.map</code> in the parent module. Routing the message back to this module.</p>
-<p>In the parent container we would call this like:</p>
-<pre><code class="language-haskell">type Msg = SubMsg Sub.Msg
+<p>To <code>toSelf</code> is a constructor that wraps the internal message, producing a parent message. This replaces <code>Html.map</code> in the parent module and will route the message back to this module.</p>
+<p>In the parent container we would use this view like:</p>
+<pre><code class="language-haskell">module Parent exposing(..)
+
+import Child
+
+type Msg = ChildMsg Child.Msg
 
 view model =
   ...
-  Sub.view model.subViewModel SubMsg
+  Child.view model.childModel ChildMsg
 </code></pre>
 <h3><a class="header" href="#produce-a-parent-message" id="produce-a-parent-message">Produce a parent message</a></h3>
 <p>With this setup we can produce parent messages from the child module.</p>
-<pre><code class="language-haskell">type alias Args msg =
+<pre><code class="language-haskell">module Child exposing(..)
+
+type alias Args msg =
   { toSelf : Msg -&gt; msg
   , onSave: msg
   }
@@ -949,15 +962,19 @@ view model args =
   ]
 </code></pre>
 <p>The parent would call this like:</p>
-<pre><code class="language-haskell">type Msg
+<pre><code class="language-haskell">module Parent exposing(..)
+
+import Child
+
+type Msg
   = OnSave
-  | SubMsg Sub.Msg
+  | ChildMsg Child.Msg
 
 view model =
   ...
-  Sub.view
-    model.subViewModel
-    { toSelf = SubMsg
+  Child.view
+    model.childModel
+    { toSelf = ChildMsg
     , onSave = OnSave
     }
 </code></pre>
