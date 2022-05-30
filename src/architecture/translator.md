@@ -1,4 +1,4 @@
-# Outer messages
+# Translator
 
 As described in [Nested TEA](./nested-tea.html) it is sometimes useful to create a nested Elm architecture. When making this we normally would use `Html.map` to route messages back to the nested module.
 
@@ -34,13 +34,13 @@ First we need to make this child view generic.
 
 ```haskell
 view: Model -> (Msg -> msg) -> Html msg
-view model toOuterMessage =
+view model toSelf =
   div []
-  [ button [ onClick (toOuterMessage Clicked) ] [ text model.name ]
+  [ button [ onClick (toSelf Clicked) ] [ text model.name ]
   ]
 ```
 
-To `toOuterMessage` message is a constructor that wraps the internal message. This replaces `Html.map` in the parent module. Routing the message back to this module.
+To `toSelf` message is a constructor that wraps the internal message. This replaces `Html.map` in the parent module. Routing the message back to this module.
 
 In the parent container we would call this like:
 
@@ -52,15 +52,36 @@ view model =
   Sub.view model.subViewModel SubMsg
 ```
 
-### Call outer messages
+### Produce a parent message
 
 With this setup we can produce parent messages from the child module.
 
 ```haskell
-view: Model -> (Msg -> msg) -> msg -> Html msg
-view model toOuterMessage parentMessage =
+type alias Args msg =
+  { toSelf : Msg -> msg
+  , onSave: msg
+  }
+
+view: Model -> Args msg -> Html msg
+view model args =
   div []
-  [ button [ onClick (toOuterMessage Clicked) ] [ text model.name ]
-  , button [ onClick parentMessage ] [ text "A parent message" ]
+  [ button [ onClick (args.toSelf Clicked) ] [ "Send to self" ]
+  , button [ onClick args.onSave ] [ text "Send to parent" ]
   ]
+```
+
+The parent would call this like:
+
+```haskell
+type Msg
+  = OnSave
+  | SubMsg Sub.Msg
+
+view model =
+  ...
+  Sub.view
+    model.subViewModel
+    { toSelf = SubMsg
+    , onSave = OnSave
+    }
 ```

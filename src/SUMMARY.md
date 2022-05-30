@@ -23,7 +23,7 @@
 - [Architecture]()
     - [Reusable views](./architecture/reusable-views.md)
     - [Nested TEA](./architecture/nested-tea.md)
-    - [Outer message](./architecture/outer-message.md)
+    - [Translator](./architecture/translator.md)
     - [Global actions](./architecture/global-actions.md)
     - [The effects pattern](./architecture/effects.md)
     - [Update return pipeline](./architecture/update-return-pipeline.md)
