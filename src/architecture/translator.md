@@ -5,20 +5,26 @@ As described in [Nested TEA](./nested-tea.html) it is sometimes useful to create
 For example, in the parent container you would have:
 
 ```haskell
-Sub.view model.subViewModel |> Html.map SubMsg
+module Parent exposing(..)
+
+import Child
+
+Child.view model.childModel |> Html.map ChildMsg
 ```
 
-The challenge of using `Html.map` here is that messages produced in the child module always need to map back to itself. We easily produce a message in the child module destined to its parent.
+The challenge of using `Html.map` here is that messages produced in the child module always need to route back to itself. We cannot easily produce a message in the child destined to its parent.
 
-As an application grows it is common to encounter something like that, suddendly you need a UI element in the child module that needs to send the message to the parent.
+As an application grows it is common to encounter something like this, perhaps we need a UI element in the child module that needs to send the message to its parent.
 
 ## Pattern
 
-The solution to this is to make the child module views generic, so instead of `View Msg` they become `View msg`. We then explicitly pass the constructor to route messages.
+The solution to this is to make the child module views generic and provide a constructor for routing messages. So, instead of `View Msg` in the child module, it becomes `View msg`. Then the parent explicitly provides the constructor to route messages.
 
-Say you start with a child module with a view like:
+For example, we have a child module with a view like:
 
 ```haskell
+module Child exposing(..)
+
 view: Model -> Html Msg
 view model =
   div []
@@ -26,13 +32,13 @@ view model =
   ]
 ```
 
-We want to add another button, but this time it should send a message to the parent.
+We want to add another button, but this time it should send a message to its parent.
 
-### Make the children generic
-
-First we need to make this child view generic.
+### First, make the child module generic
 
 ```haskell
+module Child exposing(..)
+
 view: Model -> (Msg -> msg) -> Html msg
 view model toSelf =
   div []
@@ -40,16 +46,20 @@ view model toSelf =
   ]
 ```
 
-To `toSelf` message is a constructor that wraps the internal message. This replaces `Html.map` in the parent module. Routing the message back to this module.
+To `toSelf` is a constructor that wraps the internal message, producing a parent message. This replaces `Html.map` in the parent module and will route the message back to this module.
 
-In the parent container we would call this like:
+In the parent container we would use this view like:
 
 ```haskell
-type Msg = SubMsg Sub.Msg
+module Parent exposing(..)
+
+import Child
+
+type Msg = ChildMsg Child.Msg
 
 view model =
   ...
-  Sub.view model.subViewModel SubMsg
+  Child.view model.childModel ChildMsg
 ```
 
 ### Produce a parent message
@@ -57,6 +67,8 @@ view model =
 With this setup we can produce parent messages from the child module.
 
 ```haskell
+module Child exposing(..)
+
 type alias Args msg =
   { toSelf : Msg -> msg
   , onSave: msg
@@ -73,15 +85,19 @@ view model args =
 The parent would call this like:
 
 ```haskell
+module Parent exposing(..)
+
+import Child
+
 type Msg
   = OnSave
-  | SubMsg Sub.Msg
+  | ChildMsg Child.Msg
 
 view model =
   ...
-  Sub.view
-    model.subViewModel
-    { toSelf = SubMsg
+  Child.view
+    model.childModel
+    { toSelf = ChildMsg
     , onSave = OnSave
     }
 ```
