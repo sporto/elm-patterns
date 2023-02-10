@@ -13,11 +13,11 @@ type alias Model =
     }
 ```
 
-But in this type is possible to have something like `isLoading = false` and `data = Nothing`. What is the meaning of this? This is probably an impossible state that should never happen.
+But in this type it is possible to have something like `isLoading = false` and `data = Nothing`. What is the meaning of this? This is probably an impossible state that should never happen.
 
 ## Pattern
 
-Which Elm you can represent your types in ways that don't allow for impossible states. e.g
+With Elm you can represent your types in ways that don't allow for impossible states. e.g
 
 ```haskell
 type RemoteData
