@@ -172,9 +172,9 @@
     , data: Maybe Data
     }
 </code></pre>
-<p>But in this type is possible to have something like <code>isLoading = false</code> and <code>data = Nothing</code>. What is the meaning of this? This is probably an impossible state that should never happen.</p>
+<p>But in this type it is possible to have something like <code>isLoading = false</code> and <code>data = Nothing</code>. What is the meaning of this? This is probably an impossible state that should never happen.</p>
 <h2><a class="header" href="#pattern" id="pattern">Pattern</a></h2>
-<p>Which Elm you can represent your types in ways that don't allow for impossible states. e.g</p>
+<p>With Elm you can represent your types in ways that don't allow for impossible states. e.g</p>
 <pre><code class="language-haskell">type RemoteData
     = Loading
     | Loaded Data
