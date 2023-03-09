@@ -6,7 +6,7 @@ Many time we want to conditionally render an element. For example, sometimes we 
 
 We can write our HTML like:
 
-```elm
+```haskell
 [ Just headerElement
 , maybeBanner showBanner
 , Just content
@@ -26,7 +26,7 @@ In this pattern we create a list of Maybes, and then use `List.filterMap identit
 
 We can also achieve this using:
 
-```elm
+```haskell
 [ headerElement
 , maybeBanner showBanner
 , content
@@ -47,7 +47,7 @@ To achieve the same for attributes we can use `class ""`.
 
 And we could also write our HTML like:
 
-```elm
+```haskell
 ( [ headerElement ]
 ++ maybeBanner showBanner
 ++ [ content, footerElement ]
