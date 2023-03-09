@@ -466,7 +466,7 @@ It would prevent the compiler from detecting new variants.</p>
 <p>Many time we want to conditionally render an element. For example, sometimes we want to render a banner, sometimes we don't. Here are some common patterns for this:</p>
 <h2><a class="header" href="#using-maybe" id="using-maybe">Using Maybe</a></h2>
 <p>We can write our HTML like:</p>
-<pre><code class="language-elm">[ Just headerElement
+<pre><code class="language-haskell">[ Just headerElement
 , maybeBanner showBanner
 , Just content
 , Just footerElement
@@ -481,7 +481,7 @@ maybeBanner showBanner =
 <p>In this pattern we create a list of Maybes, and then use <code>List.filterMap identity</code> to remove the  Nothings.</p>
 <h2><a class="header" href="#using-a-no-op" id="using-a-no-op">Using a no-op</a></h2>
 <p>We can also achieve this using:</p>
-<pre><code class="language-elm">[ headerElement
+<pre><code class="language-haskell">[ headerElement
 , maybeBanner showBanner
 , content
 , footerElement
@@ -497,7 +497,7 @@ maybeBanner showBanner =
 To achieve the same for attributes we can use <code>class &quot;&quot;</code>.</p>
 <h2><a class="header" href="#using-list-concatenation" id="using-list-concatenation">Using list concatenation</a></h2>
 <p>And we could also write our HTML like:</p>
-<pre><code class="language-elm">( [ headerElement ]
+<pre><code class="language-haskell">( [ headerElement ]
 ++ maybeBanner showBanner
 ++ [ content, footerElement ]
 )
