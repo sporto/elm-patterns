@@ -12,6 +12,7 @@
     - [The builder pattern](./basic/builder-pattern.md)
     - [Arguments list](./basic/arguments-list.md)
     - [Type iterator](./basic/type-iterator.md)
+    - [Conditional rendering](./basic/conditional-rendering.md)
 - [Advanced patterns]()
     - [Railway](./advanced/railway.md)
     - [Pipeline builder](./advanced/pipeline-builder.md)
