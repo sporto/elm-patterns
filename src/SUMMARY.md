@@ -24,6 +24,7 @@
 - [Architecture]()
     - [Reusable views](./architecture/reusable-views.md)
     - [Nested TEA](./architecture/nested-tea.md)
+    - [Child outcome](./architecture/child-outcome.md)
     - [Translator](./architecture/translator.md)
     - [Global actions](./architecture/global-actions.md)
     - [The effects pattern](./architecture/effects.md)

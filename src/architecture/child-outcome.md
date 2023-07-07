@@ -1,4 +1,4 @@
-# Outcome
+# Child Outcome
 
 As described in [Nested TEA](./nested-tea.html) it is sometimes useful to create a nested Elm architecture. In that case we might want to send a message from the child to the parent after an action.
 
