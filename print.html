@@ -712,7 +712,7 @@ activeUsers users =
 <li>Processes</li>
 </ul>
 <p>In the example below we could have a view that only takes active users:</p>
-<pre><code class="language-haskell">usersView : User Active -&gt; Html msg
+<pre><code class="language-haskell">usersView : Users Active -&gt; Html msg
 </code></pre>
 <p>The compiler will complain if we try to pass all users to this view. In this way it can be sure that we are filtering users correctly.</p>
 <h1><a class="header" href="#process-flow-using-phantom-types" id="process-flow-using-phantom-types">Process flow using phantom types</a></h1>
