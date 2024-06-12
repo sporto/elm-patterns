@@ -32,7 +32,7 @@ Phantom types are useful for things like:
 In the example below we could have a view that only takes active users:
 
 ```haskell
-usersView : User Active -> Html msg
+usersView : Users Active -> Html msg
 ```
 
 The compiler will complain if we try to pass all users to this view. In this way it can be sure that we are filtering users correctly.
