@@ -64,6 +64,8 @@ type OrderWithQuantity
 type Done
     = Done
 
+start : Order -> Step Start
+start order = Step order
 
 setTotal : Int -> Step Start -> Step OrderWithTotal
 setTotal total (Step model) =
@@ -91,14 +93,14 @@ done (Step order) =
 
 
 flowPrioritizingTotal total order =
-    Step order
+    start order
         |> setTotal total
         |> adjustQuantityFromTotal
         |> done
 
 
 flowPrioritizingQuantity quantity order =
-    Step order
+    start order
         |> setQuantity quantity
         |> adjustTotalFromQuantity
         |> done
