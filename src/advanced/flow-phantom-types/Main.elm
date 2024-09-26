@@ -64,8 +64,10 @@ type OrderWithQuantity
 type Done
     = Done
 
+
 start : Order -> Step Start
 start order = Step order
+
 
 setTotal : Int -> Step Start -> Step OrderWithTotal
 setTotal total (Step model) =

@@ -78,6 +78,8 @@ This function can only take a `Step` that is in the `OrderWithTotal` state. And 
 For our order state machine we need these functions:
 
 ```haskell
+start : Order -> Step Start
+
 setTotal : Int -> Step Start -> Step OrderWithTotal
 
 adjustQuantityFromTotal : Step OrderWithTotal -> Step Done
@@ -99,14 +101,14 @@ And finally we can build the valid flows using these functions:
 
 ```haskell
 flowPrioritizingTotal total order =
-    Step order
+    start order
         |> setTotal total
         |> adjustQuantityFromTotal
         |> done
 
 
 flowPrioritizingQuantity quantity order =
-    Step order
+    start order
         |> setQuantity quantity
         |> adjustTotalFromQuantity
         |> done
@@ -114,4 +116,4 @@ flowPrioritizingQuantity quantity order =
 
 In this way we can enforce specific processes without creating a myriad of intermediate types.
 
-See a working example here <https://ellie-app.com/9SywZggd5m5a1>
+See a working example here <https://ellie-app.com/smDDnCh5C8Xa1>
