@@ -786,7 +786,9 @@ type Done
 </code></pre>
 <p>This function can only take a <code>Step</code> that is in the <code>OrderWithTotal</code> state. And returns a <code>Step</code> in <code>Done</code> state.</p>
 <p>For our order state machine we need these functions:</p>
-<pre><code class="language-haskell">setTotal : Int -&gt; Step Start -&gt; Step OrderWithTotal
+<pre><code class="language-haskell">start : Order -&gt; Step Start
+
+setTotal : Int -&gt; Step Start -&gt; Step OrderWithTotal
 
 adjustQuantityFromTotal : Step OrderWithTotal -&gt; Step Done
 
@@ -801,20 +803,20 @@ done : Step Done -&gt; Order
 <h3><a class="header" href="#flows" id="flows">Flows</a></h3>
 <p>And finally we can build the valid flows using these functions:</p>
 <pre><code class="language-haskell">flowPrioritizingTotal total order =
-    Step order
+    start order
         |&gt; setTotal total
         |&gt; adjustQuantityFromTotal
         |&gt; done
 
 
 flowPrioritizingQuantity quantity order =
-    Step order
+    start order
         |&gt; setQuantity quantity
         |&gt; adjustTotalFromQuantity
         |&gt; done
 </code></pre>
 <p>In this way we can enforce specific processes without creating a myriad of intermediate types.</p>
-<p>See a working example here <a href="https://ellie-app.com/9SywZggd5m5a1">https://ellie-app.com/9SywZggd5m5a1</a></p>
+<p>See a working example here <a href="https://ellie-app.com/smDDnCh5C8Xa1">https://ellie-app.com/smDDnCh5C8Xa1</a></p>
 <h1><a class="header" href="#reusable-views" id="reusable-views">Reusable views</a></h1>
 <p>It is common to need reusable views in our applications. The most basic way in Elm is to have view functions that take message constructors as arguments.</p>
 <p>For example:</p>
